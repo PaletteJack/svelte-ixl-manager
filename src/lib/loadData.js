@@ -1,77 +1,4 @@
-import Database from "better-sqlite3";
-import pkg from "papaparse";
-const { parse } = pkg;
 import fs from 'fs';
-const db = new Database("./data/sqlite3.db");
-db.pragma('journal_mode = WAL');
-db.pragma('foreign_keys = ON');
-
-db.exec(`
-create table if not exists school (
-    id integer primary key,
-    school_id integer unique not null,
-    name text not null,
-    initials text not null
-);
-
-create table if not exists grade (
-    id integer primary key,
-    name text not null,
-    value text not null
-);
-
-create table if not exists teacher (
-    id integer primary key,
-    teacher_id text unique not null,
-    school_id integer,
-    first_name text not null,
-    last_name text not null,
-    email text not null,
-    username text not null,
-    foreign key(school_id) references school(id) on delete cascade
-);
-
-create table if not exists student (
-    id integer primary key,
-    student_id text unique not null,
-    student_number text not null,
-    school_id integer,
-    first_name text not null,
-    last_name text not null,
-    grade_id integer,
-    email text not null,
-    username text not null,
-    foreign key(school_id) references school(id) on delete cascade,
-    foreign key(grade_id) references grade(id) on delete cascade
-);
-
-create table if not exists section (
-    id integer primary key,
-    section_id text unique not null,
-    school_id integer,
-    name text not null,
-    subject text,
-    grade_id integer,
-    foreign key(school_id) references school(id) on delete cascade,
-    foreign key(grade_id) references grade(id) on delete cascade
-);
-
-create table if not exists sectionteacher (
-    id integer primary key,
-    section_id integer,
-    teacher_id integer,
-    foreign key(section_id) references section(id) on delete cascade,
-    foreign key(teacher_id) references teacher(id) on delete cascade
-);
-
-create table if not exists enrollment (
-    id integer primary key,
-    section_id integer,
-    student_id integer,
-    foreign key(section_id) references section(id) on delete cascade,
-    foreign key(student_id) references student(id) on delete cascade
-);
-`)
 
 const csvs = [
     'Schools.csv',
@@ -85,33 +12,6 @@ const csvs = [
 
 csvs.forEach((item) => {
     let insertFunction;
-
-    switch(item) {
-        case'Schools.csv':
-            insertFunction = insertSchool;
-            break;
-        case'Grades.csv':
-            insertFunction = insertGrade;
-            break;
-        case'Teachers.csv':
-            insertFunction = insertTeacher;
-            break;
-        case'Students.csv':
-            insertFunction = insertStudent;
-            break;
-        case'Sections.csv':
-            insertFunction = insertSection;
-            break;
-        case'Section-Assignments.csv':
-            insertFunction = insertSectionTeachers;
-            break;
-        case'Enrollments.csv':
-            insertFunction = insertEnrollments;
-            break;
-        default:
-            console.log("Could not find function associated with the file.");
-            break;
-    }
 
     const fileContent = fs.readFileSync(`./csvs/${item}`, 'utf8')
 
@@ -127,7 +27,7 @@ csvs.forEach((item) => {
     })
 })
 
-function insertSchool(row) {
+export function insertSchool(row, db) {
     const { school_name, initials} = row
     const school_id = Number(row.school_id)
 
@@ -141,7 +41,7 @@ function insertSchool(row) {
     }
 }
 
-function insertGrade(row) {
+export function insertGrade(row, db) {
     const { value, name } = row
 
     try {
@@ -155,7 +55,7 @@ function insertGrade(row) {
 
 }
 
-function insertTeacher(row) {
+export function insertTeacher(row, db) {
     const { school_id, teacher_id, last_name, first_name, email, username } = row
 
     try {
@@ -174,7 +74,7 @@ function insertTeacher(row) {
 
 }
 
-function insertStudent(row) {
+export function insertStudent(row, db) {
     const { school_id, student_id, student_number, last_name, first_name, grade, student_email, username } = row
 
     try {
@@ -198,7 +98,7 @@ function insertStudent(row) {
 
 }
 
-function insertSection(row) {
+export function insertSection(row, db) {
     const { school_id, section_id, name, subject, grade } = row
 
     try {
@@ -222,7 +122,7 @@ function insertSection(row) {
 
 }
 
-function insertSectionTeachers(row) {
+export function insertSectionTeachers(row, db) {
     const { teacher_id, section_id } = row
 
     try {
@@ -246,7 +146,7 @@ function insertSectionTeachers(row) {
 
 }
 
-function insertEnrollments(row) {
+export function insertEnrollments(row, db) {
     const { section_id, student_id } = row
 
     try {

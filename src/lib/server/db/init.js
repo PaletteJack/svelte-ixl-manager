@@ -1,5 +1,5 @@
 import Database from "better-sqlite3";
-const db = new Database("./data/sqlite3.db", { verbose: console.log });
+const db = new Database("./data/sqlite3.db");
 db.pragma('journal_mode = WAL');
 db.pragma('foreign_keys = ON');
 
