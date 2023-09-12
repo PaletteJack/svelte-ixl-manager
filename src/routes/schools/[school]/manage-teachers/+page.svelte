@@ -1,0 +1,1 @@
+<p>Hello from manage teachers page!</p>
