@@ -21,6 +21,7 @@ create table if not exists teacher (
     id integer primary key,
     teacher_id text unique not null,
     school_id integer,
+    super_user integer default 0,
     first_name text not null,
     last_name text not null,
     email text not null,

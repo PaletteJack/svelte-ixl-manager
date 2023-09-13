@@ -14,13 +14,13 @@
 <div class="w-full flex gap-4 mb-4">
     <button
       id="classroom-add-class"
-      class="border-2 border-solid min-w-[120px] border-green-500 hover:bg-green-500 hover:text-white rounded-sm px-2 py-1"
+      class="btn border-2 border-solid min-w-[120px] border-green-500 hover:bg-green-500 hover:text-white"
     >
       Add
     </button>
     <button
       id="classroom-delete-class"
-      class="border-2 border-solid min-w-[120px] border-red-400 hover:bg-red-400 hover:text-white rounded-sm px-2 py-1"
+      class="btn border-2 border-solid min-w-[120px] border-red-400 hover:bg-red-400 hover:text-white"
     >
       Delete
     </button>

@@ -20,10 +20,10 @@
   }
 
   .drawer-header {
-    @apply flex justify-between items-center pl-4 pr-8 py-3 bg-[#C9F0DD] mb-4 sticky top-0
+    @apply flex justify-between items-center pl-4 pr-8 py-3 bg-emerald-100 mb-4 sticky top-0
   }
   .open-tab {
-    @apply bg-[#44B78B] text-white
+    @apply bg-emerald-600 text-white
   }
 
   .close-btn {
@@ -35,11 +35,11 @@
   }
 
   .add-btn {
-    @apply border-green-500 hover:bg-green-500
+    @apply border-2 border-solid border-green-500 hover:bg-green-500
   }
 
   .delete-btn {
-    @apply border-red-400 hover:bg-red-400
+    @apply border-2 border-solid border-red-400 hover:bg-red-400
   }
 </style>
 
@@ -68,10 +68,10 @@
     {#if tab == 0}
     <div id="Teachers" class="px-4 tabcontent">
       <div class="flex gap-2 mb-2">
-        <button class="button add-btn">
+        <button class="btn add-btn">
           Add Teacher
         </button>
-        <button class="button delete-btn">
+        <button class="btn delete-btn">
           Unassign Teachers
         </button>
       </div>
@@ -80,10 +80,10 @@
     {:else if tab == 1}
     <div id="Students" class="px-4 tabcontent">
       <div class="flex gap-2 mb-2">
-        <button class="button add-btn">
+        <button class="btn add-btn">
           Add Student
         </button>
-        <button class="button delete-btn">
+        <button class="btn delete-btn">
           Unassign Students
         </button>
       </div>
