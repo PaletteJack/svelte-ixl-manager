@@ -5,9 +5,13 @@
     import Check from "$lib/svgs/Check.svelte";
     import X from "$lib/svgs/X.svelte";
     import { downloadBlob, templates, validateCSV } from "$lib/utils.js"
+    import { validateRow } from "$lib/csvValidation.js";
+    import Modal from "$lib/components/Modal.svelte";
 
     let files = [];
     let fileInput;
+    let showModal = false;
+    let modalfile;
     let csvFiles = templates.map(item => {
         return item.filename;
     }).sort()
@@ -34,17 +38,43 @@
         let count = 0;
 
         fileList.forEach(file => {
-            Papa.parse(file, {
-                complete: function(results) {
-                    count++;
-                    const csvResults = validateCSV(file.name, results.data)
+            let fileErrors = []
+            let validHeaders = false;
 
-                    if (csvResults.isValid) {
-                        files = [...files, { filename: file.name, valid: true, }]
-                    } else {
-                        files = [...files, { filename: file.name, valid: false, errors: csvResults.errors }]
+            Papa.parse(file, {
+                dynamicTyping: true,
+                skipEmptyLines: true,
+                step: function( result, parser ) {
+                    const row = result.data
+
+                    if (!validHeaders) {
+                        validHeaders = true;
+                        const headerResults = validateCSV(file.name, result.data)
+                        if (headerResults.isValid) { 
+                            validHeaders = headerResults.isValid;
+                            return;
+                        } else {
+                            fileErrors.push(headerResults.errors);
+                            parser.abort();
+                            return;
+                        }
                     }
 
+                    const rowErrors = validateRow(file.name, row);
+                    if (rowErrors.length > 0) {
+                        fileErrors.push(...rowErrors);
+                    }
+                },
+                complete: function() {
+                    count++;
+
+                    if (fileErrors.length > 0) {
+                        files = [...files, { filename: file.name, valid: false, errors: fileErrors}];
+                    } else {
+                        files = [...files, { filename: file.name, valid: true }];
+                    }
+
+                    console.log("this is what files looks like at the end: ", files);
                     if (count === fileList.length) {
                         checkMissingFiles();
                     }
@@ -65,7 +95,7 @@
                     valid: false,
                     errors: [{
                         type: "Missing file",
-                        message: `The file ${expectedFile} is missing.`
+                        message: `The file ${expectedFile} is missing`
                     }]
                 })
             }
@@ -77,6 +107,11 @@
     const clearForm = () => {
         files = [];
         fileInput.value = "";
+    }
+
+    const triggerModal = (file) => {
+        modalfile = file;
+        showModal = true
     }
 
 </script>
@@ -101,23 +136,22 @@
                 {#if files.length != 0}
                 <div class="flex flex-col">
                     {#each files as file}
-                    <!-- my plan is to add a linke here, which will open a modal with the list of errors per school. if the file does not have any errors, it will show a checkmark, else an X -->
                     <div class="py-2 w-full grid grid-cols-[160px_1fr_auto] gap-6 items-center">
-                        <!-- Col with file name -->
                         <div>
                             <p class="text-lg font-semibold">{file.filename}</p>
                         </div>
-                        <!-- Col with errors if any -->
+
                         <div>
                             {#if file.errors}
-                                {#each file.errors as obj}
-                                    <p class="text-red-500">{obj.type}. {obj.message}</p>
-                                {/each}
+                            <button type="button" class="text-red-500 underline" on:click={() => triggerModal(file)}>Click to view errors.</button>
+                                <!-- {#each file.errors as obj}
+                                    <p class="text-red-500">{obj.type}: {obj.message}.</p>
+                                {/each} -->
                             {:else}
-                                <p class="text-green-500">File is valid!</p>
+                                <p class="text-green-600">File is valid!</p>
                             {/if}
                         </div>
-                        <!-- Col with icon for valid or not -->
+
                         <div>
                             {#if file.valid}
                                 <Check styles="text-green-500 w-6 h-6" />
@@ -172,3 +206,21 @@
         <button class="btn text-white bg-red-500 hover:bg-red-400">Reset Database</button>
     </section>
 </div>
+
+<!-- <Modal bind:showModal>
+    <h2 slot="header" class="text-2xl font-semibold">
+        {modalfile.filename}
+    </h2>
+
+    <div class="flex flex-col">
+        {#each modalfile.errors as error}
+        <div class="py-2 w-full grid grid-cols-[160px_1fr] gap-6 items-center">
+            <p class="text-lg font-semibold">{error.type}</p>
+            <p class="text-red-500">{error.message}.</p>
+        </div>
+        <hr>
+        {/each}
+    </div>
+
+	<a href="https://www.merriam-webster.com/dictionary/modal">merriam-webster.com</a>
+</Modal> -->

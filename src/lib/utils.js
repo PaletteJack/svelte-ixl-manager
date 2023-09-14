@@ -51,7 +51,7 @@ export function validateCSV(filename, data) {
     if (!template) {
         console.log("No template!");
         results.errors.push({
-            type: "unexpected file",
+            type: "Unexpected file",
             message: "File name does not match template name. Rename the file and try uploading again."
         });
         results.isValid = false;
@@ -59,7 +59,7 @@ export function validateCSV(filename, data) {
     }
 
     // Validate headers
-    const headers = data[0];
+    const headers = data;
     if (!arraysEqual(headers, template.headers)) {
         results.errors.push({
             type: "Header mismatch",
@@ -71,7 +71,7 @@ export function validateCSV(filename, data) {
     return results;
 }
 
-function arraysEqual(arr1, arr2) {
+export function arraysEqual(arr1, arr2) {
     const sorted1 = [...arr1].sort();
     const sorted2 = [...arr2].sort();
     return sorted1.length === sorted2.length && sorted1.every((val, index) => val === sorted2[index]);

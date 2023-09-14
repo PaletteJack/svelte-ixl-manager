@@ -4,36 +4,24 @@
 	$: if (dialog && showModal) dialog.showModal();
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 <dialog
 	bind:this={dialog}
+	class="max-w-[36rem] rounded-sm border-0 p-0 backdrop:bg-black/30"
 	on:close={() => (showModal = false)}
 	on:click|self={() => dialog.close()}
 >
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<div on:click|stopPropagation>
+	<div on:click|stopPropagation class="p-4">
 		<slot name="header" />
 		<hr />
 		<slot />
 		<hr />
-		<!-- svelte-ignore a11y-autofocus -->
-		<button autofocus on:click={() => dialog.close()}>close modal</button>
+		<div class="flex flex-row-reverse mt-2">
+			<button class="btn block bg-orange-600 hover:bg-orange-500 text-white" autofocus on:click={() => dialog.close()}>close modal</button>
+		</div>
 	</div>
 </dialog>
 
 <style>
-	dialog {
-		max-width: 32em;
-		border-radius: 0.2em;
-		border: none;
-		padding: 0;
-	}
-	dialog::backdrop {
-		background: rgba(0, 0, 0, 0.3);
-	}
-	dialog > div {
-		padding: 1em;
-	}
 	dialog[open] {
 		animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 	}
@@ -55,8 +43,5 @@
 		to {
 			opacity: 1;
 		}
-	}
-	button {
-		display: block;
 	}
 </style>
