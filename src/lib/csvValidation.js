@@ -63,6 +63,7 @@ class Validator {
         this.headerLength = headers.length;
         this.rowLength = row.length;
         this.validationErrors = [];
+        this.GRADE_VALUES = new Set(["PK", "K", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, "A1", "PC", "G", "A2", "C"]);
     }
 
     validateData(){
@@ -99,7 +100,7 @@ class Validator {
     }
 
     validateGrade(value) {
-        if (!GRADE_VALUES.has(value)) {
+        if (!this.GRADE_VALUES.has(value)) {
             this.validationErrors.push({
                 type: "invalid grade",
                 message: `Invalid Grade: ${value}`
@@ -112,10 +113,8 @@ class Validator {
         if (!emailPattern.test(email)) {
             this.validationErrors.push({
                 type: "invalid email",
-                message: `Email email format: ${email}`
+                message: `"${email}"`
             })
         }
     }
 }
-
-const GRADE_VALUES = new Set(["PK", "K", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, "A1", "PC", "G", "A2", "C"]);

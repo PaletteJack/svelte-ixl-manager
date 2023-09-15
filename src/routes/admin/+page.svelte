@@ -7,11 +7,16 @@
     import { downloadBlob, templates, validateCSV } from "$lib/utils.js"
     import { validateRow } from "$lib/csvValidation.js";
     import Modal from "$lib/components/Modal.svelte";
+    import ModalHeader from "$lib/components/ModalHeader.svelte";
+    import ErrorList from "$lib/components/ErrorList.svelte";
 
     let files = [];
     let fileInput;
     let showModal = false;
-    let modalfile;
+    let modalComponent;
+    let props;
+    let headerComponent;
+    let modalHeader;
     let csvFiles = templates.map(item => {
         return item.filename;
     }).sort()
@@ -33,54 +38,62 @@
 
     }
 
-    const updateFiles = () => {
+    const updateFiles = async () => {
         const fileList = Array.from(fileInput.files);
-        let count = 0;
+        const promises = [];
 
         fileList.forEach(file => {
-            let fileErrors = []
-            let validHeaders = false;
-
-            Papa.parse(file, {
-                dynamicTyping: true,
-                skipEmptyLines: true,
-                step: function( result, parser ) {
-                    const row = result.data
-
-                    if (!validHeaders) {
-                        validHeaders = true;
-                        const headerResults = validateCSV(file.name, result.data)
-                        if (headerResults.isValid) { 
-                            validHeaders = headerResults.isValid;
-                            return;
-                        } else {
-                            fileErrors.push(headerResults.errors);
-                            parser.abort();
-                            return;
+            const promise = new Promise(( resolve, reject ) => {
+                let fileErrors = [];
+                let validHeaders = false;
+    
+                Papa.parse(file, {
+                    dynamicTyping: true,
+                    skipEmptyLines: true,
+                    step: function( result, parser ) {
+                        const row = result.data
+    
+                        if (!validHeaders) {
+                            validHeaders = true;
+                            const headerResults = validateCSV(file.name, result.data)
+                            if (headerResults.isValid) { 
+                                validHeaders = headerResults.isValid;
+                                return;
+                            } else {
+                                fileErrors.push(...headerResults.errors)
+                                parser.abort();
+                                return;
+                            }
                         }
+    
+                        const rowErrors = validateRow(file.name, row);
+                        if (rowErrors.length > 0) {
+                            fileErrors.push(...rowErrors);
+                        }
+                    },
+                    complete: function() {
+    
+                        if (fileErrors.length > 0) {
+                            files = [...files, { filename: file.name, valid: false, errors: fileErrors}];
+                        } else {
+                            files = [...files, { filename: file.name, valid: true }];
+                        }
+                        resolve();
                     }
+                });
 
-                    const rowErrors = validateRow(file.name, row);
-                    if (rowErrors.length > 0) {
-                        fileErrors.push(...rowErrors);
-                    }
-                },
-                complete: function() {
-                    count++;
+            });
 
-                    if (fileErrors.length > 0) {
-                        files = [...files, { filename: file.name, valid: false, errors: fileErrors}];
-                    } else {
-                        files = [...files, { filename: file.name, valid: true }];
-                    }
+            promises.push(promise);
 
-                    console.log("this is what files looks like at the end: ", files);
-                    if (count === fileList.length) {
-                        checkMissingFiles();
-                    }
-                }
-            })
         });
+
+        await Promise.all(promises)
+        .then(() => {
+            const missingFiles = checkMissingFiles();
+            files = [...files, ...missingFiles];
+            return;
+        })
 
     }
 
@@ -101,7 +114,7 @@
             }
         })
 
-        files = [...files, ...missingFiles]
+        return missingFiles;
     }
 
     const clearForm = () => {
@@ -109,9 +122,12 @@
         fileInput.value = "";
     }
 
-    const triggerModal = (file) => {
-        modalfile = file;
-        showModal = true
+    const triggerModal = (errors, name) => {
+        modalComponent = ErrorList;
+        props = errors;
+        headerComponent = ModalHeader;
+        modalHeader = name;
+        showModal = true;
     }
 
 </script>
@@ -143,10 +159,17 @@
 
                         <div>
                             {#if file.errors}
-                            <button type="button" class="text-red-500 underline" on:click={() => triggerModal(file)}>Click to view errors.</button>
-                                <!-- {#each file.errors as obj}
-                                    <p class="text-red-500">{obj.type}: {obj.message}.</p>
-                                {/each} -->
+                                {#if file.errors[0].type === "Missing file"}
+                                    <p class="text-red-500">This file is missing!</p>
+                                {:else}
+                                    <button 
+                                    type="button" 
+                                    class="text-red-500 underline" 
+                                    on:click={() => triggerModal(file.errors, file.filename)}
+                                    >
+                                        Click to view errors.
+                                    </button>
+                                {/if}
                             {:else}
                                 <p class="text-green-600">File is valid!</p>
                             {/if}
@@ -207,20 +230,10 @@
     </section>
 </div>
 
-<!-- <Modal bind:showModal>
+
+<Modal bind:showModal>
     <h2 slot="header" class="text-2xl font-semibold">
-        {modalfile.filename}
+        <svelte:component this={headerComponent} {modalHeader} />
     </h2>
-
-    <div class="flex flex-col">
-        {#each modalfile.errors as error}
-        <div class="py-2 w-full grid grid-cols-[160px_1fr] gap-6 items-center">
-            <p class="text-lg font-semibold">{error.type}</p>
-            <p class="text-red-500">{error.message}.</p>
-        </div>
-        <hr>
-        {/each}
-    </div>
-
-	<a href="https://www.merriam-webster.com/dictionary/modal">merriam-webster.com</a>
-</Modal> -->
+    <svelte:component this={modalComponent} {props} />
+</Modal>
