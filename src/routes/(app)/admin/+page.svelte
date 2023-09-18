@@ -6,8 +6,8 @@
     import Upload from "$lib/svgs/Upload.svelte";
     import Check from "$lib/svgs/Check.svelte";
     import X from "$lib/svgs/X.svelte";
-    import { downloadBlob, templates, validateCSV } from "$lib/utils.js"
-    import { validateRow } from "$lib/csvValidation.js";
+    import { validateRow, templates, validateCSV } from "$lib/csvValidation.js";
+    import { downloadBlob } from "$lib/utils.js"
     import Modal from "$lib/components/Modal.svelte";
     import ModalHeader from "$lib/components/ModalHeader.svelte";
     import ErrorList from "$lib/components/ErrorList.svelte";

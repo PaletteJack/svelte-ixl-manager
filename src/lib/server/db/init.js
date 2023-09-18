@@ -4,6 +4,16 @@ db.pragma('journal_mode = WAL');
 db.pragma('foreign_keys = ON');
 
 db.exec(`
+create table if not exists users (
+    id string primary key,
+    first_name text not null,
+    last_name text not null,
+    display_name text not null,
+    username text unique not null,
+    password_hash text not null,
+    admin integer default 0
+);
+
 create table if not exists school (
     id integer primary key,
     school_id integer unique not null,
