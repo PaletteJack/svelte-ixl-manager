@@ -1,5 +1,5 @@
 
-import { db } from './lib/server/db/init';
+import db from './lib/server/db/init.js';
 
 export const handle = async ({ event, resolve }) => {
 

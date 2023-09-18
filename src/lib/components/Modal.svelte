@@ -4,19 +4,24 @@
 	$: if (dialog && showModal) dialog.showModal();
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <dialog
 	bind:this={dialog}
 	class="max-w-[36rem] rounded-sm border-0 p-0 backdrop:bg-black/30"
 	on:close={() => (showModal = false)}
 	on:click|self={() => dialog.close()}
 >
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div on:click|stopPropagation class="p-4">
 		<slot name="header" />
 		<hr />
 		<slot />
 		<hr />
 		<div class="flex flex-row-reverse mt-2">
-			<button class="btn block bg-orange-600 hover:bg-orange-500 text-white" autofocus on:click={() => dialog.close()}>close modal</button>
+			<!-- svelte-ignore a11y-autofocus -->
+			<button class="btn block bg-orange-600 hover:bg-orange-500 text-white" autofocus on:click={() => dialog.close()}>Close</button>
 		</div>
 	</div>
 </dialog>

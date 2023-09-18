@@ -1,5 +1,7 @@
 <script>
     import Papa from "papaparse"
+    import { enhance, applyAction } from "$app/forms"
+    import { invalidateAll } from "$app/navigation"
     import JSZip from "jszip"
     import Upload from "$lib/svgs/Upload.svelte";
     import Check from "$lib/svgs/Check.svelte";
@@ -21,9 +23,9 @@
         return item.filename;
     }).sort()
 
-    // $: matchingNames = files.length != 0 && files.sort().every((file, index) => file === csvFiles[index]);
-    // $: fileLength = files.length == csvFiles.length
-    // $: fileValid = matchingNames && fileLength
+    $: containsAllFiles = csvFiles.every(expectedFile => files.some(file => file.filename === expectedFile));
+    $: filesValid = !files.every(file => file.isValid);
+    $: uploadValid = containsAllFiles && filesValid;
 
     const downloadTemplates = async () => {
         const zip = new JSZip();
@@ -130,6 +132,16 @@
         showModal = true;
     }
 
+    const submitForm = ({formElement, formData, action, cancel, submitter}) => {
+
+        return async ({ result, update }) => {
+            formElement.reset();
+            await applyAction(result);
+            await invalidateAll()
+            submissionResults = [...submissionResults, ...result.data.errors]
+        }
+    }
+
 </script>
 
 <style lang="postcss">
@@ -143,11 +155,13 @@
     <section class="w-full">
         <p class="text-2xl mt-2 font-semibold">Initial data</p>
         <hr class="border-green-700 mb-2">
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
         <p class="my-2">
             Upload a list of initial schools, teachers, enrollments and sections.
-            <span class="link p-0 cursor-pointer" on:click={downloadTemplates}>Download templates</span>
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <button class="link p-0 cursor-pointer" on:click={downloadTemplates}>Download templates</button>
         </p>
-        <form action="?/submitFiles" method="POST" enctype="multipart/form-data">
+        <form action="?/submitFiles" method="POST" enctype="multipart/form-data" use:enhance={submitForm}>
             <div class="grid w-full place-items-center min-h-[31.25rem]">
                 {#if files.length != 0}
                 <div class="flex flex-col">
@@ -186,32 +200,25 @@
                     <hr>
                     {/each}
                 </div>
-                {:else}
-                    <div class="flex flex-col gap-6 items-center mt-4">
-                        <label for="file-upload" class="custom-label-button">
-                            <div class="rounded-full bg-gray-800 text-white p-2">
-                                <Upload styles="w-8 h-8" />
-                            </div>
-                            <span>Upload Files</span></label>
-                        <input bind:this={fileInput} id="file-upload" type="file" class="hidden" name="csvs" multiple="multiple" accept="text/csv, .csv" on:change={updateFiles}>
-                    </div>
                 {/if}
+                <div class="flex flex-col gap-6 items-center mt-4" class:hidden={files.length != 0}>
+                    <label for="file-upload" class="custom-label-button">
+                        <div class="rounded-full bg-gray-800 text-white p-2">
+                            <Upload styles="w-8 h-8" />
+                        </div>
+                        <span>Upload Files</span></label>
+                    <input bind:this={fileInput} id="file-upload" type="file" class="hidden" name="csvs" multiple="multiple" accept="text/csv, .csv" on:change={updateFiles}>
+                </div>
             </div>
             <div class="w-full flex flex-row-reverse gap-4">
                 <button 
-                type="submit" 
+                type="submit"
+                disabled={!uploadValid}
                 class="btn bg-green-300 hover:bg-green-200"
+                class:diabled-button={!uploadValid}
                 >
                     Submit Files
                 </button>
-                <!-- <button 
-                type="submit" 
-                disabled={!fileValid} 
-                class="btn bg-green-300 hover:bg-green-200"
-                class:diabled-button={!fileValid}
-                >
-                    Submit Files
-                </button> -->
                 <button
                 type="button"
                 class="btn text-white bg-orange-600 hover:bg-orange-500"
