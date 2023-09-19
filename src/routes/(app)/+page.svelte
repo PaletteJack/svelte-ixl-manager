@@ -1,6 +1,10 @@
 <script>
     export let data;
-    const { schools } = data
+    import { triggerModal } from '$lib/modalStore.js';
+    import Modal2 from '$lib/components/Modal2.svelte';
+    const { schools, username } = data;
+    const showModal = () => triggerModal({header: "This is the header", content: "This is the modal content"});
+    
 </script>
 
 <div class="px-4 lg:px-0">
@@ -41,5 +45,8 @@
       </div>
     {:else}
       <p>No data loaded yet. <a class="link" href="/admin">Load Data?</a></p>
+      <button class="btn bg-orange-500 hover:bg-orange-400 text-white" on:click={showModal}>Trigger modal</button>
     {/if}
   </div>
+
+  <Modal2 />

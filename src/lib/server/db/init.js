@@ -79,6 +79,12 @@ create table if not exists enrollment (
     foreign key(section_id) references section(id) on delete cascade,
     foreign key(student_id) references student(id) on delete cascade
 );
+
+create table if not exists session (
+    sid text primary key,
+    username text not null,
+    invalidAt integer not null
+)
 `)
 
 process.on('SIGINT', gracefulShutdown);

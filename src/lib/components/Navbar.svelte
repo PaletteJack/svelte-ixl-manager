@@ -7,15 +7,15 @@
 
 <style lang="postcss">
     .mobile-btn {
-        @apply relative inline-flex items-center justify-center rounded-md p-2 text-gray-200 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white
+        @apply relative inline-flex items-center justify-center rounded-md p-2 text-gray-200 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white;
     }
 
     .nav-link {
-        @apply select-none text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium
+        @apply select-none text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium;
     }
 
     .nav-active {
-        @apply bg-gray-900 text-white
+        @apply bg-gray-900 text-white;
     }
 
 </style>
@@ -45,7 +45,7 @@
         <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
           <div class="flex flex-shrink-0 items-center">
             <h3 class="text-white pointer-events-none select-none">
-              <span class="absolute top-0 text-sm">Sveltekit ❤️</span><span class="text-2xl font-semibold">IXL Manager</span>
+              <span class="absolute top-0 -left-2 text-sm">Sveltekit ❤️</span><span class="text-2xl font-semibold">IXL Manager</span>
             </h3>
           </div>
           <div class="hidden sm:ml-6 sm:block w-full">
@@ -55,7 +55,7 @@
                 <a href="/schools" class="nav-link" class:nav-active={$page.url.pathname.includes("/schools")}>Schools</a>
                 <a href="/admin" class="nav-link" class:nav-active={$page.url.pathname.includes("/admin")}>Admin</a>
               </div>
-              <a href="#!" class="nav-link">Logout</a>
+              <a href="/logout" class="nav-link" data-sveltekit-preload-data="off" data-sveltekit-reload>Logout</a>
             </div>
           </div>
         </div>

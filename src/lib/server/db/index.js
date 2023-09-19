@@ -59,7 +59,6 @@ export const createUser = async (data) => {
 
 export const checkLogin = async (data) => {
     const { username, password } = data;
-    console.log(`username: ${username}, password: ${password}`);
     const stmt = db.prepare(`
     select password_hash
     from users
@@ -71,7 +70,6 @@ export const checkLogin = async (data) => {
     if (pass && pass.password_hash) {
         try {
             if (await argon2.verify(pass.password_hash, password)) {
-                console.log('The password matches');
                 return {
                     valid: true
                 }
