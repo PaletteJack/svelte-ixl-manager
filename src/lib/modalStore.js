@@ -2,15 +2,16 @@ import { writable } from "svelte/store";
 
 export const modal = writable({
     active: false,
-    content: '',
+    content: null,
     header: '',
-    styles: ''
+    styles: '',
+    props: {}
 })
 
-export function triggerModal({ content, header, styles }) {
-    modal.set({active: true, content, header, styles });
+export function triggerModal({ content, header, styles, props = {} }) {
+    modal.set({active: true, content, header, styles, props });
 }
 
 export function closeModal() {
-    modal.set({active: false, content: '', header: '', styles: ''})
+    modal.set({active: false, content: null, header: '', styles: '', props: {}})
 }

@@ -18,7 +18,9 @@ export function arraysEqual(arr1, arr2) {
 }
 
 export const generateUsername = (first, last) => {
+    const firstName = first.toLowerCase();
+    const lastName = last.toLowerCase();
     const id = randomBytes(2).toString('hex')
-    const username = `${first[0].toLowerCase()}${last.slice(0,5).toLowerCase}${id}`;
+    const username = `${firstName[0]}${lastName.slice(0,5)}${id}`;
     return username
 }

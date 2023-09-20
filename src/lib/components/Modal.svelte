@@ -1,27 +1,38 @@
 <script>
-	export let showModal;
-	let dialog;
-	$: if (dialog && showModal) dialog.showModal();
+    import { modal, closeModal } from '../modalStore.js';
+    let dialog;
+	$: contentComponent = $modal.content
+    $: if (dialog && $modal.active) dialog.showModal();
+    $: if (dialog && !$modal.active) dialog.close();
+	$: modalStyles = $modal.styles ?? ""
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <dialog
 	bind:this={dialog}
-	class="max-w-[36rem] rounded-sm border-0 p-0 backdrop:bg-black/30"
-	on:close={() => (showModal = false)}
-	on:click|self={() => dialog.close()}
+	class="max-w-[36rem] rounded-md border-0 p-0 backdrop:bg-black/30 {modalStyles}"
 >
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<div on:click|stopPropagation class="p-4">
-		<slot name="header" />
+	<div class="p-4">
+        <h2 class="text-2xl font-semibold">
+            {$modal.header}
+        </h2>
 		<hr />
-		<slot />
-		<hr />
+        <div class="py-4">
+            {#if contentComponent}
+			<svelte:component this={contentComponent}  {...$modal.props}/>
+			{/if}
+        </div>
 		<div class="flex flex-row-reverse mt-2">
 			<!-- svelte-ignore a11y-autofocus -->
-			<button class="btn block bg-orange-600 hover:bg-orange-500 text-white" autofocus on:click={() => dialog.close()}>Close</button>
+			<button 
+			class="btn block bg-orange-600 hover:bg-orange-500 text-white" 
+			autofocus 
+			on:click={closeModal}>
+				Close
+			</button>
 		</div>
 	</div>
 </dialog>

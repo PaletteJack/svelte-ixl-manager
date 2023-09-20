@@ -1,3 +1,4 @@
+import { arraysEqual } from "./utils.js"
 
 export const templates = [
     {

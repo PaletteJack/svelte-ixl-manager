@@ -89,3 +89,18 @@ export const checkLogin = async (data) => {
         message: "Could not account for that username"
     }
 }
+
+export const resetDatabase = () => {
+    try {
+        db.transaction(() => {
+            db.prepare(`delete from section`).run()
+            db.prepare(`delete from grade`).run()
+            db.prepare(`delete from school`).run()
+        })();
+    } catch (err) {
+        console.log("Error resetting databse: ", err);
+        return err;
+    }
+
+    return null
+}

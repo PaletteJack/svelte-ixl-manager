@@ -1,24 +1,20 @@
 <script>
     import Papa from "papaparse"
+    import JSZip from "jszip"
     import { enhance, applyAction } from "$app/forms"
     import { invalidateAll } from "$app/navigation"
-    import JSZip from "jszip"
+    import { validateRow, templates, validateCSV } from "$lib/csvValidation.js";
+    import { downloadBlob } from "$lib/utils.js"
+    import { triggerModal } from "$lib/modalStore";
+    import { triggerToast } from "$lib/toastStore";
     import Upload from "$lib/svgs/Upload.svelte";
     import Check from "$lib/svgs/Check.svelte";
     import X from "$lib/svgs/X.svelte";
-    import { validateRow, templates, validateCSV } from "$lib/csvValidation.js";
-    import { downloadBlob } from "$lib/utils.js"
-    import Modal from "$lib/components/Modal.svelte";
-    import ModalHeader from "$lib/components/ModalHeader.svelte";
     import ErrorList from "$lib/components/ErrorList.svelte";
+    import ResetData from "$lib/forms/ResetData.svelte";
 
     let files = [];
     let fileInput;
-    let showModal = false;
-    let modalComponent;
-    let props;
-    let headerComponent;
-    let modalHeader;
     let csvFiles = templates.map(item => {
         return item.filename;
     }).sort()
@@ -124,21 +120,32 @@
         fileInput.value = "";
     }
 
-    const triggerModal = (errors, name) => {
-        modalComponent = ErrorList;
-        props = errors;
-        headerComponent = ModalHeader;
-        modalHeader = name;
-        showModal = true;
+    const showErrors = (file) => {
+        triggerModal({content: ErrorList, header: file.filename, props: { errors: file.errors}})
+    }
+
+    const databaseReset = () => {
+        triggerModal({content: ResetData, header: "Are you sure?"});
     }
 
     const submitForm = ({formElement, formData, action, cancel, submitter}) => {
 
         return async ({ result, update }) => {
-            formElement.reset();
-            await applyAction(result);
-            await invalidateAll()
-            submissionResults = [...submissionResults, ...result.data.errors]
+            // const submissionResults = [...result.data.errors]
+            // console.log(submissionResults);
+            switch(result.type) {
+                case 'success':
+                    formElement.reset();
+                    await applyAction(result);
+                    await invalidateAll();
+                    triggerToast({message: "Uploaded data successfully", bg: "bg-green-500", fontColor: "text-black"})
+                    break;
+                case 'failure':
+                    triggerToast.Page({message: "There was a problem uploading your data.", bg: "bg-red-500"})
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -179,7 +186,7 @@
                                     <button 
                                     type="button" 
                                     class="text-red-500 underline" 
-                                    on:click={() => triggerModal(file.errors, file.filename)}
+                                    on:click={() => showErrors(file)}
                                     >
                                         Click to view errors.
                                     </button>
@@ -233,14 +240,6 @@
         <p class="text-2xl mt-4 font-semibold">Reset Database</p>
         <hr class="border-green-700 mb-2">
         <p class="my-2">Delete all records in the database.</p>
-        <button class="btn text-white bg-red-500 hover:bg-red-400">Reset Database</button>
+        <button class="btn text-white bg-red-500 hover:bg-red-400" on:click={databaseReset}>Reset Database</button>
     </section>
 </div>
-
-
-<Modal bind:showModal>
-    <h2 slot="header" class="text-2xl font-semibold">
-        <svelte:component this={headerComponent} {modalHeader} />
-    </h2>
-    <svelte:component this={modalComponent} {props} />
-</Modal>
