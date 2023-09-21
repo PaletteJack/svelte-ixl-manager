@@ -1,7 +1,16 @@
-<p>This is the schools page... multiple schools!</p>
+<script>
+    export let data;
+    const { schools } = data;
+</script>
+
+<p>Select a schools</p>
 
 <div class="flex flex-col gap-2 mt-4">
-    <a class="text-green-700 underline" href="/schools/1/manage-classes">Example School One</a>
-    <a class="text-green-700 underline" href="/schools/2/manage-classes">My School Two</a>
-    <a class="text-green-700 underline" href="/schools/3/manage-classes">Now that's what I call school vol. 3</a>
+{#if schools.length > 0}
+    {#each schools as school}
+        <a class="link" href="/schools/{school.id}/manage-classes">{school.name}</a>
+    {/each}
+{:else}
+    <p>No schools to show! <a class="link" href="/admin">Load Data?</a></p>
+{/if}
 </div>

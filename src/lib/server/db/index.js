@@ -4,22 +4,12 @@ import { generateUsername } from "$lib/utils"
 import * as argon2 from "argon2"
 import db from './init'
 
-export const getSchoolsWithCount = () => {
+/* ----------------- Auth functions ----------------- */
+export const checkUserCount = () => {
     const stmt = db.prepare(`
-    select
-        s.school_id,
-        s.name as school_name,
-        count(st.student_id) as student_count
-    from
-        school s
-    left outer join
-        student st on s.id = st.school_id
-    group by
-        s.school_id, s.name
+    select count(*) as count from users
     `)
-    const schools = stmt.all();
-
-    return json(schools);
+    return stmt.get().count;
 }
 
 export const createUser = async (data) => {
@@ -52,7 +42,43 @@ export const createUser = async (data) => {
         return {
             valid: false,
             type: "insert error",
-            message: `Could not account for user ${display_name}`
+            message: `Could not create account: ${err}`
+        }
+    }
+}
+
+export const createSuperUser = async (data) => {
+    const stmt = db.prepare(`
+    insert into users (id, first_name, last_name, display_name, username, password_hash, admin)
+    values (?, ?, ?, ?, ?, ?, ?)
+    `)
+
+    const id = uuidv4();
+    const { first_name, last_name, password } = data;
+    const display_name = `${first_name} ${last_name}`;
+    const username = "Admin"
+    const admin = 1;
+    let password_hash;
+    try {
+        const hash = await argon2.hash(password);
+        password_hash = hash;
+    } catch (err) {
+        console.log("password could not be hashed");
+        return;
+    }
+
+    console.log(`creating super user...\n\nID: ${id}\nFirst Name: ${first_name}\nLast Name: ${last_name}\nDisplay Name: ${display_name}\nUsername: ${username}\nPassword Hash: ${password_hash}`);
+    
+    try {
+        stmt.run(id, first_name, last_name, display_name, username, password_hash, admin)
+        return{
+            valid: true,
+        }
+    } catch (err) {
+        return {
+            valid: false,
+            type: "insert error",
+            message: `Could not create super user account: ${err}`
         }
     }
 }
@@ -90,6 +116,26 @@ export const checkLogin = async (data) => {
     }
 }
 
+/* ----------------- Special functions ----------------- */
+
+export const getSchoolsWithCount = () => {
+    const stmt = db.prepare(`
+    select
+        s.school_id,
+        s.name as school_name,
+        count(st.student_id) as student_count
+    from
+        school s
+    left outer join
+        student st on s.id = st.school_id
+    group by
+        s.school_id, s.name
+    `)
+    const schools = stmt.all();
+
+    return schools;
+}
+
 export const resetDatabase = () => {
     try {
         db.transaction(() => {
@@ -103,4 +149,15 @@ export const resetDatabase = () => {
     }
 
     return null
+}
+
+/* ----------------- Schools ----------------- */
+
+export const getAllSchools = () => {
+    const stmt = db.prepare(`
+    select id, name from school
+    `)
+    const schools = stmt.all();
+
+    return schools;
 }

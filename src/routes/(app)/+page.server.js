@@ -1,9 +1,8 @@
+import { getSchoolsWithCount } from '$lib/server/db/index.js';
 
+export const load = async ({  }) => {
 
-export const load = async ({ fetch, locals: { db } }) => {
-
-    const req = await fetch("/api/schools");
-    const schools = await req.json();
+    const schools = await getSchoolsWithCount();
     
     return {
         schools: schools

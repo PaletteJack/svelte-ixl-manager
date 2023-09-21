@@ -1,6 +1,15 @@
-import { createUser, checkLogin } from '$lib/server/db/index.js';
+import { createUser, checkLogin, checkUserCount } from '$lib/server/db/index.js';
 import { performLogin } from '$lib/server/db/sessions.js';
 import { redirect, fail } from '@sveltejs/kit';
+
+/** @type {import('./$types').PageLoad} */
+export async function load() {
+    const userCount = checkUserCount();
+
+    if (userCount == 0) {
+        throw redirect(301, "/login/create-super-user");
+    }
+}
 
 /** @type {import('./$types').Actions} */
 export const actions = {

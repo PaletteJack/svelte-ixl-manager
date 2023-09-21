@@ -1,8 +1,16 @@
 <script>
     import { page } from "$app/stores"
+	  import Logo from "./Logo.svelte";
 
     let open = false;
     const toggleMenu = () => open = !open
+
+    const handleNav = () => {
+      if (open) {
+        return open = false;
+      }
+    }
+    
 </script>
 
 <style lang="postcss">
@@ -44,9 +52,7 @@
 
         <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
           <div class="flex flex-shrink-0 items-center">
-            <h3 class="text-white pointer-events-none select-none">
-              <span class="absolute top-0 -left-2 text-sm">Sveltekit ❤️</span><span class="text-2xl font-semibold">IXL Manager</span>
-            </h3>
+            <Logo />
           </div>
           <div class="hidden sm:ml-6 sm:block w-full">
             <div class="flex space-x-4 w-full items-center justify-between">
@@ -64,10 +70,10 @@
 
     <div class="w-full" class:hidden={!open} id="mobile-menu">
       <div class="space-y-1 px-2 pb-3 pt-2 bg-gray-800">
-        <a href="/" class="block w-full nav-link" class:nav-active={$page.url.pathname == "/"}>Home</a>
-        <a href="/schools" class="block w-full nav-link" class:nav-active={$page.url.pathname.includes("/schools")}>Schools</a>
-        <a href="/admin" class="block w-full nav-link" class:nav-active={$page.url.pathname.includes("/admin")}>Admin</a>
-        <a href="#!" class="block w-full nav-link">Log Out</a>
+        <a href="/" class="block w-full nav-link" class:nav-active={$page.url.pathname == "/"} on:click={handleNav}>Home</a>
+        <a href="/schools" class="block w-full nav-link" class:nav-active={$page.url.pathname.includes("/schools")} on:click={handleNav}>Schools</a>
+        <a href="/admin" class="block w-full nav-link" class:nav-active={$page.url.pathname.includes("/admin")} on:click={handleNav}>Admin</a>
+        <a href="/logout" class="block w-full nav-link" data-sveltekit-preload-data="off" data-sveltekit-reload>Log Out</a>
       </div>
     </div>
   </nav>

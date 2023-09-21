@@ -15,9 +15,9 @@ export const handle = async ({ event, resolve }) => {
         }
     }
 
-    const atLogin = !event.url.pathname.startsWith('/login')
+    const inApp = !event.url.pathname.startsWith('/login')
 
-    if (atLogin) {
+    if (inApp) {
         if (!sid || !event.locals.username) {
             throw redirect('301', "/login")
         }
