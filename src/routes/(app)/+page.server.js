@@ -2,9 +2,11 @@ import { getSchoolsWithCount } from '$lib/server/db/index.js';
 
 export const load = async ({  }) => {
 
-    const schools = await getSchoolsWithCount();
-    
+    const results = await getSchoolsWithCount();
+    const schools = results.schools
+    const licenseCount = results.license_count
     return {
-        schools: schools
+        schools,
+        licenseCount
     }
 }

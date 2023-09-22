@@ -1,1 +1,54 @@
-<p>Hello from manage students page!</p>
+<script>
+	import SimpleDrawer from '$lib/components/SimpleDrawer.svelte';
+	export let data;
+	const { school, students } = data;
+	let showModal = false;
+	const triggerModal = () => (showModal = true);
+	const closeModal = () => (showModal = false);
+
+	const selectItem = (id) => {
+		console.log(id);
+	};
+</script>
+
+<div class="w-full flex gap-4 mb-4">
+	<button class="btn w-btn bg-green-500 hover:bg-green-400 text-white">Add</button>
+	<button class="btn w-btn bg-red-500 hover:bg-red-400 text-white">Delete</button>
+</div>
+{#if students.length > 0}
+	<table class="table-auto w-full border-collapse max-h-[750px] overflow-y-auto">
+		<thead>
+			<tr class="bg-green-900 text-white text-left sticky top-0">
+				<th class="p-2">First Name</th>
+				<th class="p-2">Last Name</th>
+				<th class="p-2">Email</th>
+				<th class="p-2">Grade</th>
+			</tr>
+		</thead>
+		<tbody>
+			{#each students as student}
+				<tr
+					class="student-row even:bg-green-100 hover:bg-gray-200 hover:cursor-pointer"
+					on:click={triggerModal}
+				>
+					<td class="p-2">
+						<input
+							class="mr-4"
+							type="checkbox"
+							value={student.id}
+							on:click|stopPropagation={() => selectItem(student.id)}
+						/>
+						{student.first_name}
+					</td>
+					<td class="p-2">{student.last_name}</td>
+					<td class="p-2">{student.email}</td>
+					<td class="p-2">{student.grade_name}</td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
+{:else}
+	<p>No Students to show!</p>
+{/if}
+
+<SimpleDrawer isOpen={showModal} {school} on:close={closeModal} />

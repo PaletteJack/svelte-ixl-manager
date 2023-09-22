@@ -1,5 +1,5 @@
 <script>
-    import { modal, closeModal } from '../modalStore.js';
+    import { modal, closeModal } from '$lib/modalStore.js';
     let dialog;
 	$: contentComponent = $modal.content
     $: if (dialog && $modal.active) dialog.showModal();
@@ -28,7 +28,7 @@
 		<div class="flex flex-row-reverse mt-2">
 			<!-- svelte-ignore a11y-autofocus -->
 			<button 
-			class="btn block bg-orange-600 hover:bg-orange-500 text-white" 
+			class="btn w-btn bg-orange-600 hover:bg-orange-500 text-white"
 			autofocus 
 			on:click={closeModal}>
 				Close

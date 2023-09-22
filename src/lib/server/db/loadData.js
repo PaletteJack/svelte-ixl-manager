@@ -3,13 +3,14 @@
 export function insertSchool(row, db, errorList) {
     const school_name = row["School Name"]
     const initials = row["Initials"]
+    const license_type = row["License Type"]
     const school_id = Number(row["School ID"])
 
     try {
         db.prepare(`
-        insert or ignore into school (school_id, name, initials)
-        values (?, ?, ?)
-        `).run(school_id, school_name, initials)
+        insert or ignore into school (school_id, name, initials, license_type)
+        values (?, ?, ?, ?)
+        `).run(school_id, school_name, initials, license_type)
     } catch (error) {
         errorList.push({
             type: "insert error",

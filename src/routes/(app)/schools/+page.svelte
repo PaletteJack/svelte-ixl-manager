@@ -3,9 +3,10 @@
     const { schools } = data;
 </script>
 
-<p>Select a schools</p>
+<h1 class="text-3xl text-green-950">Select a School</h1>
+<hr class="mb-2" />
 
-<div class="flex flex-col gap-2 mt-4">
+<div class="flex flex-col gap-2 mt-2">
 {#if schools.length > 0}
     {#each schools as school}
         <a class="link" href="/schools/{school.id}/manage-classes">{school.name}</a>

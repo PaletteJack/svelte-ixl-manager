@@ -18,7 +18,7 @@ export const handle = async ({ event, resolve }) => {
     const inApp = !event.url.pathname.startsWith('/login')
 
     if (inApp) {
-        if (!sid || !event.locals.username) {
+        if (!sid) {
             throw redirect('301', "/login")
         }
     }

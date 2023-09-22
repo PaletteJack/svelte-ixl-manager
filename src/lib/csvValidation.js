@@ -3,7 +3,7 @@ import { arraysEqual } from "./utils.js"
 export const templates = [
     {
         filename: "Schools.csv",
-        headers: ["School ID", "School Name", "Initials"]
+        headers: ["School ID", "School Name", "Initials", "License Type"]
     },
     {
         filename: "Grades.csv",
@@ -69,7 +69,8 @@ export const validateRow = (file, row) => {
             headers = [
                 { name: "School ID", type: "number" },
                 { name: "School Name", type: "string" },
-                { name: "Initials", type: "string" }];
+                { name: "Initials", type: "string" },
+                { name: "License Type", type: "string" }];
             break;
         case'Grades.csv':
             headers = [{name: "Value", type: "string"}, {name: "Name", type: "string"}];

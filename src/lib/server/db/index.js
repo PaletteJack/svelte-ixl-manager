@@ -88,7 +88,7 @@ export const checkLogin = async (data) => {
     const stmt = db.prepare(`
     select password_hash
     from users
-    where username = ?
+    where username = ? collate nocase
     `)
 
     const pass = await stmt.get(username);
@@ -121,8 +121,10 @@ export const checkLogin = async (data) => {
 export const getSchoolsWithCount = () => {
     const stmt = db.prepare(`
     select
+        s.id,
         s.school_id,
         s.name as school_name,
+        s.license_type,
         count(st.student_id) as student_count
     from
         school s
@@ -131,9 +133,26 @@ export const getSchoolsWithCount = () => {
     group by
         s.school_id, s.name
     `)
-    const schools = stmt.all();
 
-    return schools;
+    const licenseStmt = db.prepare(`
+    select
+        s.license_type,
+        count(st.student_id) as student_count
+    from
+        school s
+    left outer join
+        student st on s.id = st.school_id
+    group by
+        s.license_type
+    `)
+
+    const schools = stmt.all();
+    const license_count = licenseStmt.all();
+
+    return {
+        schools,
+        license_count
+    }
 }
 
 export const resetDatabase = () => {
@@ -160,4 +179,93 @@ export const getAllSchools = () => {
     const schools = stmt.all();
 
     return schools;
+}
+
+export const getSchool = (id) => {
+    const stmt = db.prepare(`
+    select * from school
+    where id = ?
+    `)
+    const school = stmt.get(id)
+
+    return school;
+}
+
+
+/* ----------------- Sections ----------------- */
+
+export const getSchoolSections = (id) => {
+    const stmt = db.prepare(`
+    select 
+    section.*,
+    grade.id as grade_id,
+    grade.name as grade_name,
+    grade.value as grade_value
+    from section
+    join grade on section.grade_id = grade.id
+    where section.school_id = ?
+    `)
+
+    const sections = stmt.all(id)
+
+    return sections;
+}
+
+export const getTeachersAndStudents = (id) => {
+    const teacherStmt = db.prepare(`
+    select teacher.*
+    from sectionteacher
+    join teacher on sectionteacher.teacher_id = teacher.id
+    where sectionteacher.section_id = ?
+    `);
+    const teachers = teacherStmt.all(id);
+
+    const studentStmt = db.prepare(`
+    select student.*
+    from enrollment
+    join student on enrollment.student_id = student.id
+    where enrollment.section_id = ?
+    `)
+
+    const students = studentStmt.all(id);
+
+    return {
+        teachers: teachers,
+        students: students
+    }
+
+}
+
+
+/* ----------------- Teachers ----------------- */
+
+export const getSchoolTeachers = (id) => {
+    const stmt = db.prepare(`
+    select * from teacher
+    where school_id = ?
+    `)
+
+    const teachers = stmt.all(id)
+
+    return teachers;
+}
+
+
+/* ----------------- Students ----------------- */
+
+export const getSchoolStudents = (id) => {
+    const stmt = db.prepare(`
+    select 
+    student.*,
+    grade.id as grade_id,
+    grade.name as grade_name,
+    grade.value as grade_value
+    from student
+    join grade on student.grade_id = grade.id
+    where student.school_id = ?
+    `)
+
+    const students = stmt.all(id)
+
+    return students;
 }

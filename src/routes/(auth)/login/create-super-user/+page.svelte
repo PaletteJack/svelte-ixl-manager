@@ -7,7 +7,7 @@
     $: matchingPasswords = password === confirmPassword;
 </script>
 
-<div class="p-4 pt-6 bg-[#0C4B33] min-w-[24rem] max-w-[30rem] rounded-md shadow-lg">
+<div class="p-4 pt-8 bg-[#0C4B33] min-w-[24rem] max-w-[30rem] rounded-md shadow-lg">
     <div class="w-full flex justify-center">
         <Logo />
     </div>
@@ -25,7 +25,7 @@
                     <p class="text-red-500">Your passwords do not match</p>
                 {/if}
             {/if}
-            <button type="submit" class="btn bg-gray-100 hover:bg-green-100 !w-full transition-colors">Login</button>
+            <button type="submit" class="btn bg-gray-100 hover:bg-green-100 !w-full transition-colors">Create User</button>
         </div>
     </form>
 </div>

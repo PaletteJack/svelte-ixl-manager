@@ -15,7 +15,7 @@
                     formElement.reset();
                     await applyAction(result);
                     await invalidateAll();
-                    triggerToast({message: result.data.message, bg: "bg-green-500", fontColor: "text-black"})
+                    triggerToast({message: result.data.message, bg: "bg-green-500"})
                     break;
                 case 'failure':
                     triggerToast({message: result.data.message, bg: "bg-red-500"})
