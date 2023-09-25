@@ -1,10 +1,9 @@
 <script>
-    let inputValue = ''
     import { enhance, applyAction } from "$app/forms"
     import { invalidateAll } from "$app/navigation"
     import { closeModal } from "../modalStore";
     import { triggerToast } from "../toastStore";
-    $: isValid = inputValue === "Delete Database";
+    export let section_ids;
 
     const submitForm = ({formElement, formData, action, cancel, submitter}) => {
 
@@ -27,16 +26,14 @@
     }
 </script>
 
-<p>Type in <span class="text-red-500">"Delete Database"</span> to confirm you would like to reset all data. This action cannot be undone.</p>
-<form action="?/resetDB" method="POST" use:enhance={submitForm}>
-    <div class="w-full flex gap-4 my-4">
-        <input class="input border-2 border-red-300 focus:outline-none" bind:value={inputValue} type="text" name="confirmation">
-        <button 
+<p>Are you sure you want to delete the selected section(s)? This action cannot be undone.</p>
+<form action="?/deleteSections" method="POST" use:enhance={submitForm}>
+    <input type="hidden" value={section_ids} name="ids">
+    <div class="w-full flex flex-row-reverse gap-4 mt-6">
+        <button
         class="btn bg-red-500 hover:bg-red-400 text-white"
-        class:diabled-button={!isValid}
-        disabled={!isValid}
         >
-            Delete Database
+            Delete Sections
         </button>
     </div>
 </form>

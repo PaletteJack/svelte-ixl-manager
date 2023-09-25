@@ -4,8 +4,10 @@
 	import Toast from "$lib/components/single/Toast.svelte";
 	import Modal from "$lib/components/single/Modal.svelte";
 	import Drawer from "$lib/components/single/Drawer.svelte";
+	import FloatingUi from "$lib/components/single/FloatingUI.svelte";
 </script>
   
+<!-- <FloatingUi /> -->
 <Toast />
 <Modal />
 <Drawer />

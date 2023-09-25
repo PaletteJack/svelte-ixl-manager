@@ -1,6 +1,6 @@
 <script>
 	import { drawer, closeDrawer } from '$lib/drawerStore';
-	import { slide } from 'svelte/transition';
+	import { scale } from 'svelte/transition';
 </script>
 
 <style lang="postcss">
@@ -18,9 +18,9 @@
 </style>
 
 {#if $drawer.active}
-	<div class="drawer" transition:slide={{ duration: 300, axis: 'x' }}>
+	<div class="drawer" in:scale={{duration: 300, opacity: 0.5, start: 0.5}} out:scale={{duration: 200, opacity: 0.3, start: 0.4}}>
 		<div class="drawer-header">
-			<p class="text-2xl font-semibold">{$drawer.header}</p>
+			<p class="text-2xl">{$drawer.header}</p>
 			<button class="close-btn" on:click={closeDrawer}> X </button>
 		</div>
 

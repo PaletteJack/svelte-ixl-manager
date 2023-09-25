@@ -44,7 +44,11 @@
 
 </script>
 
-<div class="relative w-fit hover:cursor-default" on:mouseenter={mouseOver} on:mouseleave={mouseLeave}>
+<div 
+class="relative w-fit hover:cursor-default" 
+on:mouseenter={mouseOver} 
+on:mouseleave={mouseLeave}
+>
     <slot/>
     {#if isHovered}
     <div 

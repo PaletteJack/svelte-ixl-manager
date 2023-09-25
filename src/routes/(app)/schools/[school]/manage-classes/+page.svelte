@@ -1,45 +1,82 @@
 <script>
-  import ClassContents from '$lib/components/ClassContents.svelte';
-  import { triggerDrawer } from "$lib/drawerStore.js"
+	import ClassContents from '$lib/components/ClassContents.svelte';
+	import AddSection from '$lib/forms/AddSection.svelte';
+	import DeleteSection from '$lib/forms/DeleteSection.svelte';
+	import { triggerDrawer } from '$lib/drawerStore.js';
+	import { triggerModal } from '$lib/modalStore.js';
 	export let data;
 	const { school, classes } = data;
-	let showModal = false;
+	let selectedClasses = [];
 
-	const selectItem = (id) => {
-		console.log(id);
+	const handleDrawer = async (section) => {
+		const req = await fetch('/api/get-section-users', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ id: section.id })
+		});
+
+		const classData = await req.json();
+
+		triggerDrawer({
+			content: ClassContents,
+			header: section.name,
+			props: {
+				classData
+			}
+		});
 	};
 
-  const handleDrawer = async (section) => {
-    const req = await fetch('/api/get-section-users', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({id: section.id})
-    })
+	const newSection = () => {
 
-    const classData = await req.json();
+		triggerModal({
+			content: AddSection,
+			header: "New Section",
+			props: {
+				schoolID: school.id,
+				grades: [
+					{value: 1, name: "One"},
+					{value: 2, name: "Two"},
+					{value: 3, name: "Three"},
+				]
+			}
+		})
+	}
 
-    triggerDrawer({
-      content: ClassContents,
-      header: section.name,
-      props: {
-        classData
-      }
-    });
-  }
+	const deleteSections = () => {
+		if (selectedClasses.length > 0) {
+			triggerModal({
+				content: DeleteSection,
+				header: "Are you sure?",
+				props: {
+					section_ids: selectedClasses
+				}
+			})
+		} else {
+			alert("No sections selected");
+		}
+	}
 </script>
 
 <div class="w-full flex gap-4 mb-4">
-	<button id="classroom-add-class" class="btn w-btn bg-green-500 hover:bg-green-400 text-white">
+	<button
+		id="classroom-add-class"
+		class="btn w-btn bg-green-500 hover:bg-green-400 text-white"
+		on:click={newSection}
+	>
 		Add
 	</button>
-	<button id="classroom-delete-class" class="btn w-btn bg-red-500 hover:bg-red-400 text-white">
+	<button 
+	id="classroom-delete-class" 
+	class="btn w-btn bg-red-500 hover:bg-red-400 text-white"
+	on:click={deleteSections}
+	>
 		Delete
 	</button>
 </div>
 {#if classes.length != 0}
-	<table class="table-auto w-full border-collapse max-h-[750px] overflow-y-auto">
+	<table class="table-auto w-full border-collapse max-h-[725px] overflow-y-auto">
 		<thead>
 			<tr class="bg-green-900 text-white text-left sticky top-0">
 				<th class="p-2">Section ID</th>
@@ -50,7 +87,7 @@
 		<tbody>
 			{#each classes as section}
 				<tr
-					class="section-row even:bg-green-100 hover:bg-gray-200 hover:cursor-pointer"
+					class="section-row even:bg-green-100 hover:bg-gray-200 hover:cursor-pointer last:pb-4"
 					on:click={() => handleDrawer(section)}
 				>
 					<td class="p-2 flex items-center">
@@ -58,7 +95,8 @@
 							class="mr-4"
 							type="checkbox"
 							value={section.id}
-							on:click|stopPropagation={() => selectItem(section.id)}
+							bind:group={selectedClasses}
+							on:click|stopPropagation
 						/>
 						{section.section_id}
 					</td>
