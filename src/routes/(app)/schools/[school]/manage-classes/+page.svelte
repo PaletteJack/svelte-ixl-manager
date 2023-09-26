@@ -2,11 +2,23 @@
 	import ClassContents from '$lib/components/ClassContents.svelte';
 	import AddSection from '$lib/forms/AddSection.svelte';
 	import DeleteSection from '$lib/forms/DeleteSection.svelte';
-	import { triggerDrawer } from '$lib/drawerStore.js';
+	import { triggerDrawer, closeDrawer } from '$lib/drawerStore.js';
 	import { triggerModal } from '$lib/modalStore.js';
+	import { onDestroy } from 'svelte';
 	export let data;
-	const { school, classes } = data;
+	const { school } = data;
+	$: classes = data.classes;
+	const grades = data.streamed.grades
 	let selectedClasses = [];
+	let addAllClasses = false;
+
+	const changeAllClasses = () => {
+		if (addAllClasses) {
+			selectedClasses = classes.map(c => c.id);
+		} else {
+			selectedClasses = [];
+		}
+	}
 
 	const handleDrawer = async (section) => {
 		const req = await fetch('/api/get-section-users', {
@@ -35,11 +47,7 @@
 			header: "New Section",
 			props: {
 				schoolID: school.id,
-				grades: [
-					{value: 1, name: "One"},
-					{value: 2, name: "Two"},
-					{value: 3, name: "Three"},
-				]
+				grades: grades
 			}
 		})
 	}
@@ -57,6 +65,10 @@
 			alert("No sections selected");
 		}
 	}
+
+	onDestroy(() => {
+		closeDrawer();
+	})
 </script>
 
 <div class="w-full flex gap-4 mb-4">
@@ -67,19 +79,28 @@
 	>
 		Add
 	</button>
-	<button 
-	id="classroom-delete-class" 
-	class="btn w-btn bg-red-500 hover:bg-red-400 text-white"
-	on:click={deleteSections}
-	>
-		Delete
-	</button>
+	{#if selectedClasses.length > 0}
+		<button 
+		id="classroom-delete-class" 
+		class="btn w-btn bg-red-500 hover:bg-red-400 text-white"
+		on:click={deleteSections}
+		>
+			Delete
+		</button>
+	{/if}
 </div>
 {#if classes.length != 0}
 	<table class="table-auto w-full border-collapse max-h-[725px] overflow-y-auto">
 		<thead>
 			<tr class="bg-green-900 text-white text-left sticky top-0">
-				<th class="p-2">Section ID</th>
+				<th class="p-2"><input
+					class="mr-4"
+					type="checkbox"
+					bind:checked={addAllClasses}
+					on:change={changeAllClasses}
+					/>
+				Section
+					 ID</th>
 				<th class="p-2">Name</th>
 				<th class="p-2">Grade</th>
 			</tr>

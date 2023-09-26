@@ -1,20 +1,45 @@
 <script>
+	import TeacherTable from "../tables/TeacherTable.svelte";
 	export let classData;
 	$: teachers = classData.teachers;
 	$: students = classData.students;
 	let tab = 0;
-	const changeTab = (id) => {
-		tab = id;
-	};
+
+	// Teacher logic
+	let selectedTeachers = [];
+    let checkAllTeachers = false;
+
+    const handleAllTeachers = () => {
+
+        if (checkAllTeachers) {
+			selectedTeachers = teachers.map(t => t.id)
+        } else {
+            selectedTeachers = [];
+        }
+    }
+
+	// Students logic
+	let selectedStudents = [];
+    let checkAllStudents = false;
+
+    const handleAllStudents = () => {
+
+        if (checkAllStudents) {
+			selectedStudents = students.map(s => s.id)
+        } else {
+            selectedStudents = [];
+        }
+    }
+
 </script>
 
 <div class="w-full px-4">
 	<div class="tab w-full">
 		<div class="flex gap-0">
-			<button class="px-4 py-2 m-0" class:open-tab={tab == 0} on:click={() => changeTab(0)}>
+			<button class="px-4 py-2 m-0" class:open-tab={tab == 0} on:click={() => tab = 0}>
 				Teachers
 			</button>
-			<button class="px-4 py-2 m-0" class:open-tab={tab == 1} on:click={() => changeTab(1)}>
+			<button class="px-4 py-2 m-0" class:open-tab={tab == 1} on:click={() => tab = 1}>
 				Students
 			</button>
 		</div>
@@ -24,20 +49,49 @@
 	{#if tab == 0}
 		<div id="Teachers" class="px-4 tabcontent">
 			<div class="flex gap-2 mb-2">
-				<button class="btn add-btn"> Add Teacher </button>
-				<button class="btn delete-btn"> Unassign Teachers </button>
+				<button class="btn add-btn">Add Teacher</button>
+				{#if selectedTeachers.length > 0}
+					<button class="btn delete-btn">Unassign Teachers</button>
+				{/if}
 			</div>
 			<div id="teacher-list">
+				<p class="text-xl mt-4 mb-2">Assigned Teachers</p>
 				{#if teachers.length > 0}
-					{#each teachers as teacher}
-						<div class="w-full py-2 flex justify-between items-center">
-							<div class="flex gap-2 items-center">
-								<input class="teacher-checkbox" type="checkbox" value={teacher.id} />
-								<p>{teacher.first_name} {teacher.last_name}</p>
-							</div>
-							<p>{teacher.email}</p>
-						</div>
-					{/each}
+				<div class="w-full flex flex-col">
+					<!-- <TeacherTable {teachers}/> -->
+					<table class="table-auto w-full border-collapse max-h-[725px] overflow-y-auto">
+						<thead>
+							<tr class="text-left">
+								<th class="p-2">
+									<input
+									class="mr-4"
+									type="checkbox"
+									bind:checked={checkAllTeachers}
+									on:change={handleAllTeachers}
+									/>
+								</th>
+								<th class="p-2 font-semibold">Name</th>
+								<th class="p-2 font-semibold">Email</th>
+							</tr>
+						</thead>
+						<tbody>
+							{#each teachers as teacher}
+								<tr class="even:bg-green-100">
+									<td class="p-2 flex items-center">
+										<input
+											class="teacher-input mr-4"
+											type="checkbox"
+											value={teacher.id}
+											bind:group={selectedTeachers}
+										/>
+									</td>
+									<td class="p-2 w-fit">{teacher.first_name} {teacher.last_name}</td>
+									<td class="p-2">{teacher.email}</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</div>
 				{:else}
 					<p>No teachers assigned to this section.</p>
 				{/if}
@@ -47,20 +101,49 @@
 		<div id="Students" class="px-4 tabcontent">
 			<div class="flex gap-2 mb-2">
 				<button class="btn add-btn"> Add Student </button>
-				<button class="btn delete-btn"> Unassign Students </button>
+				{#if selectedStudents.length > 0}
+					<button class="btn delete-btn">Unassign Students</button>
+				{/if}
 			</div>
 
 			<div id="student-list">
+				<p class="text-xl mt-4 mb-2">Assigned Teachers</p>
 				{#if students.length > 0}
-					{#each students as student}
-						<div class="w-full py-2 flex justify-between items-center">
-							<div class="flex gap-2 items-center">
-								<input class="teacher-checkbox" type="checkbox" value={student.id} />
-								<p>{student.first_name} {student.last_name}</p>
-							</div>
-							<p>{student.email}</p>
-						</div>
-					{/each}
+				<div class="w-full flex flex-col">
+					<!-- <TeacherTable {teachers}/> -->
+					<table class="table-auto w-full border-collapse max-h-[725px] overflow-y-auto">
+						<thead>
+							<tr class="text-left">
+								<th class="p-2">
+									<input
+									class="mr-4"
+									type="checkbox"
+									bind:checked={checkAllStudents}
+									on:change={handleAllStudents}
+									/>
+								</th>
+								<th class="p-2 font-semibold">Name</th>
+								<th class="p-2 font-semibold">Email</th>
+							</tr>
+						</thead>
+						<tbody>
+							{#each students as student}
+								<tr class="even:bg-green-100">
+									<td class="p-2 flex items-center">
+										<input
+											class="teacher-input mr-4"
+											type="checkbox"
+											value={student.id}
+											bind:group={selectedStudents}
+										/>
+									</td>
+									<td class="p-2 w-fit">{student.first_name} {student.last_name}</td>
+									<td class="p-2">{student.email}</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</div>
 				{:else}
 					<p>No students assigned to this section.</p>
 				{/if}

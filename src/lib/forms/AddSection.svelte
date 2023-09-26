@@ -31,14 +31,14 @@
     <input class="input" type="hidden" value={schoolID} name="school">
     <div class="w-full flex flex-col gap-4">
         <div class="w-full flex gap-4">
-            <input class="input" type="text" name="section_id" placeholder="Section ID">
-            <input class="input" type="text" name="section_name" placeholder="Name">
+            <input class="input" type="text" name="section_id" placeholder="Section ID" required>
+            <input class="input" type="text" name="section_name" placeholder="Name" required>
         </div>
         <div class="w-full flex gap-4">
             <input class="input" type="text" name="subject" placeholder="Subject (optional)">
             <select name="grade" class="input">
                 {#each grades as grade}
-                <option value={grade.value}>{grade.name}</option>
+                <option value={grade.id}>{grade.name}</option>
                 {/each}
             </select>
         </div>

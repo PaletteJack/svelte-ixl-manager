@@ -236,6 +236,42 @@ export const getTeachersAndStudents = (id) => {
 
 }
 
+export const createNewSection = (obj) => {
+    const { section_id, section_name, subject } = obj;
+    const grade_id = Number(obj.grade)
+    const school_id = Number(obj.school)
+
+    const stmt = db.prepare(`
+    insert into section(section_id, school_id, name, subject, grade_id)
+    values (?, ?, ?, ?, ?)
+    `)
+
+    try {
+        stmt.run(section_id, school_id, section_name, subject, grade_id)
+    } catch (err) {
+        return {
+            error: err
+        }
+    }
+
+    return null
+}
+
+export const deleteSections = (form_ids) => {
+    const deletion = db.prepare(`delete from section where id = ?`);
+
+    const deleteMany = db.transaction((ids) => {
+        for (const id of ids) deletion.run(id);
+    });
+
+    try {
+        deleteMany(form_ids);
+    } catch (err) {
+        return {
+            error: err
+        }
+    }
+}
 
 /* ----------------- Teachers ----------------- */
 
@@ -268,4 +304,16 @@ export const getSchoolStudents = (id) => {
     const students = stmt.all(id)
 
     return students;
+}
+
+/* ----------------- Grades ----------------- */
+
+export const getGrades = () => {
+    const stmt = db.prepare(`
+    select id, name from grade
+    `)
+
+    const sections = stmt.all()
+
+    return sections;
 }
