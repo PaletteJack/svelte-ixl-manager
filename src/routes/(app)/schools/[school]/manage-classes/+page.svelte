@@ -35,7 +35,9 @@
 			content: ClassContents,
 			header: section.name,
 			props: {
-				classData
+				classData,
+				school: school,
+				section: section.id
 			}
 		});
 	};

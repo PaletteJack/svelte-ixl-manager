@@ -2,8 +2,8 @@
     let inputValue = ''
     import { enhance, applyAction } from "$app/forms"
     import { invalidateAll } from "$app/navigation"
-    import { closeModal } from "../modalStore";
-    import { triggerToast } from "../toastStore";
+    import { closeModal } from "$lib/modalStore";
+    import { triggerToast } from "$lib/toastStore";
     $: isValid = inputValue === "Delete Database";
 
     const submitForm = ({formElement, formData, action, cancel, submitter}) => {

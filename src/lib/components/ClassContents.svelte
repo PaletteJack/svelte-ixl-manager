@@ -1,6 +1,10 @@
 <script>
-	import TeacherTable from "../tables/TeacherTable.svelte";
+	import AddTeacherToSection from "$lib/forms/AddTeacherToSection.svelte";
+	import AddStudentToSection from "$lib/forms/AddStudentToSection.svelte";
+	import { triggerModal } from "$lib/modalstore"
 	export let classData;
+	export let section;
+	export let school;
 	$: teachers = classData.teachers;
 	$: students = classData.students;
 	let tab = 0;
@@ -18,6 +22,28 @@
         }
     }
 
+	const addTeachers = async () => {
+		const req = await fetch('/api/get-school-teachers', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ id: school.id })
+		});
+
+		const teachers = await req.json();
+
+		triggerModal({
+			content: AddTeacherToSection,
+			header: "Add Teachers",
+			props: {
+				sectionID: section,
+				teachers: teachers
+			}
+		})
+
+	}
+
 	// Students logic
 	let selectedStudents = [];
     let checkAllStudents = false;
@@ -30,6 +56,28 @@
             selectedStudents = [];
         }
     }
+
+	const addStudents = async () => {
+		const req = await fetch('/api/get-school-students', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ id: school.id })
+		});
+
+		const students = await req.json();
+
+		triggerModal({
+			content: AddStudentToSection,
+			header: "Add Students",
+			props: {
+				sectionID: section,
+				students: students
+			}
+		})
+
+	}
 
 </script>
 
@@ -49,7 +97,7 @@
 	{#if tab == 0}
 		<div id="Teachers" class="px-4 tabcontent">
 			<div class="flex gap-2 mb-2">
-				<button class="btn add-btn">Add Teacher</button>
+				<button class="btn add-btn" on:click={addTeachers}>Add Teacher</button>
 				{#if selectedTeachers.length > 0}
 					<button class="btn delete-btn">Unassign Teachers</button>
 				{/if}
@@ -100,7 +148,7 @@
 	{:else if tab == 1}
 		<div id="Students" class="px-4 tabcontent">
 			<div class="flex gap-2 mb-2">
-				<button class="btn add-btn"> Add Student </button>
+				<button class="btn add-btn" on:click={addStudents}> Add Student </button>
 				{#if selectedStudents.length > 0}
 					<button class="btn delete-btn">Unassign Students</button>
 				{/if}

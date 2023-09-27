@@ -1,6 +1,6 @@
 <script>
-    export let schoolID;
-    export let grades;
+    export let sectionID;
+    export let students;
     import { enhance, applyAction } from "$app/forms"
     import { invalidateAll } from "$app/navigation"
     import { closeModal } from "$lib/modalStore";
@@ -27,25 +27,22 @@
     }
 </script>
 
-<form action="?/addSection" method="POST" use:enhance={submitForm}>
-    <input class="input" type="hidden" value={schoolID} name="school">
+{#if students.length > 0}    
+<form action="?/addTeacherToSection" method="POST" use:enhance={submitForm}>
+    <input class="input" type="hidden" value={sectionID} name="section">
     <div class="w-full flex flex-col gap-4">
-        <div class="w-full flex gap-4">
-            <input class="input" type="text" name="section_id" placeholder="Section ID" required>
-            <input class="input" type="text" name="section_name" placeholder="Name" required>
-        </div>
-        <div class="w-full flex gap-4">
-            <input class="input" type="text" name="subject" placeholder="Subject (optional)">
-            <select name="grade" class="input">
-                {#each grades as grade}
-                <option value={grade.id}>{grade.name}</option>
-                {/each}
-            </select>
-        </div>
+        <select multiple name="teacher" class="input focus:outline-none border-2 border-black rounded-sm">
+            {#each students as student}
+            <option value={student.id}>{student.first_name} {student.last_name}</option>
+            {/each}
+        </select>
         <div class="w-full flex flex-row-reverse mt-4">
             <button class="btn bg-green-500 hover:bg-green-400 text-white">
-                Create Section
+                Add Teachers
             </button>
         </div>
     </div>
 </form>
+{:else}
+<p>There are no students in this school. <a href="#!" class="link">Add students?</a></p>
+{/if}

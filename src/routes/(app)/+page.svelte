@@ -3,7 +3,10 @@
 	import ToolTip from "$lib/components/ToolTip.svelte";
 	export let data;
 	const { schools, username, licenseCount } = data;
-	const licenseTotals = `${licenseCount[0].license_type} - ${licenseCount[0].student_count}\n${licenseCount[1].license_type} - ${licenseCount[1].student_count}`
+	let licenseTotals;
+	if (schools.length > 0) {
+		licenseTotals = `${licenseCount[0].license_type} - ${licenseCount[0].student_count}\n${licenseCount[1].license_type} - ${licenseCount[1].student_count}`;
+	}
 
 	export const navToSchool = (id) => {
 		goto(`/schools/${id}/manage-classes`)

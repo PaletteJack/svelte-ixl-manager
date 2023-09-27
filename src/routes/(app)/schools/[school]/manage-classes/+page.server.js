@@ -47,5 +47,10 @@ export const actions = {
             message: "Section(s) deleted"
         }
         
+    },
+
+    addTeacherToSection: async ({ request }) => {
+        const body = Object.fromEntries(await request.formData());
+        console.log(body);
     }
 };
