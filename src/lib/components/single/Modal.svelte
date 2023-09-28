@@ -16,8 +16,8 @@
 >
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<div class="p-4">
-		<div class="w-full flex justify-between">
+	<div class="px-4 pb-4">
+		<div class="w-full flex justify-between sticky top-0 pt-4 pb-2 bg-white">
 			<h2 class="text-2xl font-semibold">
 				{$modal.header}
 			</h2>
@@ -26,7 +26,7 @@
 			</button>
 		</div>
 		<hr class="mt-2" />
-        <div class="py-4">
+        <div class="pt-4">
             {#if contentComponent}
 			<svelte:component this={contentComponent}  {...$modal.props}/>
 			{/if}
@@ -40,7 +40,8 @@
 	}
 
 	.custom-width {
-		width: min(36rem, 100%);
+		width: min(38rem, 100%);
+		max-height: 30rem;
 	}
 
 	@keyframes zoom {

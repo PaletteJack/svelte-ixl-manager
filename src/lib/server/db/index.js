@@ -286,6 +286,19 @@ export const getSchoolTeachers = (id) => {
     return teachers;
 }
 
+export const getSchoolTeachersExcludeSection = (school_id, section_id) => {
+    const stmt = db.prepare(`
+    select teacher.*
+    from teacher
+    left join sectionteacher on teacher.id = sectionteacher.teacher_id and sectionteacher.section_id = ?
+    where teacher.school_id = ? and sectionteacher.section_id is null
+    `)
+
+    const teachers = stmt.all(section_id, school_id)
+
+    return teachers;
+}
+
 
 /* ----------------- Students ----------------- */
 
@@ -302,6 +315,19 @@ export const getSchoolStudents = (id) => {
     `)
 
     const students = stmt.all(id)
+
+    return students;
+}
+
+export const getSchoolStudentsExcludeSection = (school_id, section_id) => {
+    const stmt = db.prepare(`
+    select student.*
+    from student
+    left join enrollment on student.id = enrollment.student_id and enrollment.section_id = ?
+    where student.school_id = ? and enrollment.section_id is null
+    `)
+
+    const students = stmt.all(section_id, school_id)
 
     return students;
 }

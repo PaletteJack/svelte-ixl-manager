@@ -1,11 +1,12 @@
 import { json } from '@sveltejs/kit';
-import { getSchoolStudents } from '$lib/server/db/index.js';
+import { getSchoolStudentsExcludeSection } from '$lib/server/db/index.js';
 
 export async function POST({ request }) {
-    const { id } = await request.json();
-    const school_id = Number(id);
+    const { school_id, section_id } = await request.json();
+    const schoolID = Number(school_id);
+    const sectionID = Number(section_id);
 
-    const users = getSchoolStudents(school_id);
+    const users = getSchoolStudentsExcludeSection(schoolID, sectionID);
 
     return json(users);
 }

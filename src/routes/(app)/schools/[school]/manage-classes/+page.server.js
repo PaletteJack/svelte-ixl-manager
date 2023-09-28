@@ -52,5 +52,10 @@ export const actions = {
     addTeacherToSection: async ({ request }) => {
         const body = Object.fromEntries(await request.formData());
         console.log(body);
+    },
+
+    addEnrollment: async ({ request }) => {
+        const body = Object.fromEntries(await request.formData());
+        console.log(body);
     }
 };

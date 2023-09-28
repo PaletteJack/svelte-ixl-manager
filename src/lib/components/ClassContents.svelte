@@ -28,7 +28,7 @@
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ id: school.id })
+			body: JSON.stringify({ school_id: school.id, section_id: section })
 		});
 
 		const teachers = await req.json();
@@ -63,7 +63,7 @@
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ id: school.id })
+			body: JSON.stringify({ school_id: school.id, section_id: section })
 		});
 
 		const students = await req.json();
@@ -106,13 +106,12 @@
 				<p class="text-xl mt-4 mb-2">Assigned Teachers</p>
 				{#if teachers.length > 0}
 				<div class="w-full flex flex-col">
-					<!-- <TeacherTable {teachers}/> -->
 					<table class="table-auto w-full border-collapse max-h-[725px] overflow-y-auto">
 						<thead>
 							<tr class="text-left">
 								<th class="p-2">
 									<input
-									class="mr-4"
+									class="w-full grid place-items-center"
 									type="checkbox"
 									bind:checked={checkAllTeachers}
 									on:change={handleAllTeachers}
@@ -125,9 +124,9 @@
 						<tbody>
 							{#each teachers as teacher}
 								<tr class="even:bg-green-100">
-									<td class="p-2 flex items-center">
+									<td class="">
 										<input
-											class="teacher-input mr-4"
+											class="teacher-input w-full grid place-items-center"
 											type="checkbox"
 											value={teacher.id}
 											bind:group={selectedTeachers}
@@ -155,7 +154,7 @@
 			</div>
 
 			<div id="student-list">
-				<p class="text-xl mt-4 mb-2">Assigned Teachers</p>
+				<p class="text-xl mt-4 mb-2">Assigned Students</p>
 				{#if students.length > 0}
 				<div class="w-full flex flex-col">
 					<!-- <TeacherTable {teachers}/> -->
