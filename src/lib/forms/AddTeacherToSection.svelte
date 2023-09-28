@@ -39,14 +39,13 @@
     }
 </script>
 
-
 {#if teachers.length > 0}
 <table class="table-auto w-full border-collapse max-h-[725px] overflow-y-auto">
     <thead>
         <tr class="text-left">
             <th class="p-2">
                 <input
-                class="w-full grid place-items-center"
+                class=""
                 type="checkbox"
                 bind:checked={checkAllTeachers}
                 on:change={handleAllTeachers}
@@ -61,7 +60,7 @@
             <tr class="even:bg-green-100">
                 <td class="p-2 flex items-center">
                     <input
-                        class="teacher-input w-full grid place-items-center"
+                        class=""
                         type="checkbox"
                         value={teacher.id}
                         bind:group={selectedTeachers}

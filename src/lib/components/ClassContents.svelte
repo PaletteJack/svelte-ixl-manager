@@ -111,7 +111,7 @@
 							<tr class="text-left">
 								<th class="p-2">
 									<input
-									class="w-full grid place-items-center"
+									class=""
 									type="checkbox"
 									bind:checked={checkAllTeachers}
 									on:change={handleAllTeachers}
@@ -124,9 +124,9 @@
 						<tbody>
 							{#each teachers as teacher}
 								<tr class="even:bg-green-100">
-									<td class="">
+									<td class="p-2">
 										<input
-											class="teacher-input w-full grid place-items-center"
+											class=""
 											type="checkbox"
 											value={teacher.id}
 											bind:group={selectedTeachers}
@@ -163,7 +163,7 @@
 							<tr class="text-left">
 								<th class="p-2">
 									<input
-									class="mr-4"
+									class=""
 									type="checkbox"
 									bind:checked={checkAllStudents}
 									on:change={handleAllStudents}
@@ -178,7 +178,7 @@
 								<tr class="even:bg-green-100">
 									<td class="p-2 flex items-center">
 										<input
-											class="teacher-input mr-4"
+											class=""
 											type="checkbox"
 											value={student.id}
 											bind:group={selectedStudents}

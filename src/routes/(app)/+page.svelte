@@ -47,7 +47,7 @@
 						<td class="px-2 py-2 text-lg font-semibold">Total</td>
 						<td class="px-2"></td>
 						<td class="px-2 py-2 flex flex-row-reverse pr-6">
-							<ToolTip tooltip={licenseTotals} position="right" styles="bg-green-300 text-gray-900 p-4">
+							<ToolTip tooltip={licenseTotals} position="left" styles="bg-green-300 text-gray-900 p-4">
 								<span class="underline text-lg font-semibold">
 									{licenseCount[0].student_count + licenseCount[1].student_count}
 								</span>

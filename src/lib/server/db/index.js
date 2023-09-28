@@ -299,6 +299,25 @@ export const getSchoolTeachersExcludeSection = (school_id, section_id) => {
     return teachers;
 }
 
+export const addTeachersToSection = (section_id, teacher_ids) => {
+    const insert = db.prepare(`
+    insert into sectionteacher(section_id, teacher_id)
+    values (?, ?)
+    `)
+
+    const insertMany = db.transaction((ids) => {
+        for (const id of ids) insert.run(section_id, id);
+    });
+
+    try {
+        insertMany(teacher_ids);
+    } catch (err) {
+        return {
+            error: err
+        }
+    }
+}
+
 
 /* ----------------- Students ----------------- */
 
@@ -330,6 +349,25 @@ export const getSchoolStudentsExcludeSection = (school_id, section_id) => {
     const students = stmt.all(section_id, school_id)
 
     return students;
+}
+
+export const addEnrollment = (section_id, student_ids) => {
+    const insert = db.prepare(`
+    insert into enrollment(section_id, teacher_id)
+    values (?, ?)
+    `)
+
+    const insertMany = db.transaction((ids) => {
+        for (const id of ids) insert.run(section_id, id);
+    });
+
+    try {
+        insertMany(student_ids);
+    } catch (err) {
+        return {
+            error: err
+        }
+    }
 }
 
 /* ----------------- Grades ----------------- */
