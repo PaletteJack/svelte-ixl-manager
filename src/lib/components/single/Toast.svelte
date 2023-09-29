@@ -10,7 +10,7 @@
 
 <style lang="postcss">
     .toast {
-        @apply min-w-[250px] text-center rounded-sm p-4 fixed z-10 bottom-8 right-9;
+        @apply min-w-[250px] text-center rounded-sm p-4 fixed z-50 bottom-8 right-9;
     }
 </style>
 

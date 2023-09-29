@@ -316,6 +316,45 @@ export const addTeachersToSection = (section_id, teacher_ids) => {
             error: err
         }
     }
+
+    return null;
+}
+
+export const deleteTeachersFromSection = (section_id, teacher_ids) => {
+    const deletion = db.prepare(`
+    delete from sectionteacher 
+    where section_id = ?
+    and teacher_id = ?
+    `)
+
+    const deleteMany = db.transaction((ids) => {
+        for (const id of ids) deletion.run(section_id, id)
+    })
+
+    try {
+        deleteMany(teacher_ids);
+    } catch (err) {
+        return {
+            error: err
+        }
+    }
+
+    return null
+}
+
+export const getTeacherSections = (id) => {
+    const stmt = db.prepare(`
+    select s.*, g.name as grade_name
+    from section s
+    join sectionteacher st on s.id = st.section_id
+    join teacher t on t.id = st.teacher_id
+    join grade g on g.id = s.grade_id
+    where t.id = ?
+    `)
+
+    const sections = stmt.all(id)
+
+    return sections
 }
 
 
@@ -353,7 +392,7 @@ export const getSchoolStudentsExcludeSection = (school_id, section_id) => {
 
 export const addEnrollment = (section_id, student_ids) => {
     const insert = db.prepare(`
-    insert into enrollment(section_id, teacher_id)
+    insert into enrollment(section_id, student_id)
     values (?, ?)
     `)
 
@@ -368,6 +407,30 @@ export const addEnrollment = (section_id, student_ids) => {
             error: err
         }
     }
+
+    return null;
+}
+
+export const deleteStudentsFromEnrollment = (section_id, student_ids) => {
+    const deletion = db.prepare(`
+    delete from enrollment 
+    where section_id = ?
+    and student_id = ?
+    `)
+
+    const deleteMany = db.transaction((ids) => {
+        for (const id of ids) deletion.run(section_id, id)
+    })
+
+    try {
+        deleteMany(student_ids);
+    } catch (err) {
+        return {
+            error: err
+        }
+    }
+
+    return null
 }
 
 /* ----------------- Grades ----------------- */

@@ -1,10 +1,19 @@
 <script>
 	import AddTeacherToSection from "$lib/forms/AddTeacherToSection.svelte";
 	import AddStudentToSection from "$lib/forms/AddStudentToSection.svelte";
+	import DeleteTeacherFromSection from "$lib/forms/DeleteTeacherFromSection.svelte";
+	import DeleteStudentFromEnrollment from "$lib/forms/DeleteStudentFromEnrollment.svelte";
+	import { classDataStore } from "$lib/classDataStore.js"
 	import { triggerModal } from "$lib/modalstore"
-	export let classData;
+	import { onDestroy } from "svelte";
 	export let section;
 	export let school;
+	let classData;
+
+	const unsubscribe = classDataStore.subscribe(value => {
+		classData = value;
+	})
+
 	$: teachers = classData.teachers;
 	$: students = classData.students;
 	let tab = 0;
@@ -44,6 +53,18 @@
 
 	}
 
+	const deleteTeachers = async () => {
+
+		triggerModal({
+			content: DeleteTeacherFromSection,
+			header: "Are you sure?",
+			props: {
+				sectionID: section,
+				teachers: selectedTeachers
+			}
+		})
+	}
+
 	// Students logic
 	let selectedStudents = [];
     let checkAllStudents = false;
@@ -79,6 +100,20 @@
 
 	}
 
+	const deleteStudents = async () => {
+
+		triggerModal({
+			content: DeleteStudentFromEnrollment,
+			header: "Are you sure?",
+			props: {
+				sectionID: section,
+				students: selectedStudents
+			}
+		})
+	}
+
+	onDestroy(unsubscribe)
+
 </script>
 
 <div class="w-full px-4">
@@ -99,7 +134,7 @@
 			<div class="flex gap-2 mb-2">
 				<button class="btn add-btn" on:click={addTeachers}>Add Teacher</button>
 				{#if selectedTeachers.length > 0}
-					<button class="btn delete-btn">Unassign Teachers</button>
+					<button class="btn delete-btn" on:click={deleteTeachers}>Unassign Teachers</button>
 				{/if}
 			</div>
 			<div id="teacher-list">
@@ -149,7 +184,7 @@
 			<div class="flex gap-2 mb-2">
 				<button class="btn add-btn" on:click={addStudents}> Add Student </button>
 				{#if selectedStudents.length > 0}
-					<button class="btn delete-btn">Unassign Students</button>
+					<button class="btn delete-btn" on:click={deleteStudents}>Unassign Students</button>
 				{/if}
 			</div>
 

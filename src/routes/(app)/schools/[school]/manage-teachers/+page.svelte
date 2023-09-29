@@ -1,13 +1,33 @@
 <script>
-	import SimpleDrawer from '$lib/components/SimpleDrawer.svelte';
+	import UserContents from "$lib/components/UserContents.svelte";
+	import { triggerDrawer } from "$lib/drawerStore"
 	export let data;
 	const { school, teachers } = data;
-	let showModal = false;
-	const triggerModal = () => (showModal = true);
-	const closeModal = () => (showModal = false);
 
-	const selectItem = (id) => {
-		console.log(id);
+	let selectedTeachers = [];
+	let allTeachers = false;
+
+	const changeAllTeachers = () => {
+		if (allTeachers) {
+			selectedTeachers = teachers.map(t => t.id);
+		} else {
+			selectedTeachers = [];
+		}
+	}
+
+	const handleDrawer = async (teacher) => {
+		const req = await fetch(`/api/get-teacher?id=${teacher.id}`)
+		const teacherData = await req.json();
+
+		triggerDrawer({
+			content: UserContents,
+			header: `${teacher.first_name} ${teacher.last_name}`,
+			props: {
+				user: teacher,
+				sections: teacherData
+			}
+		});
+
 	};
 </script>
 
@@ -19,7 +39,12 @@
 	<table class="table-auto w-full border-collapse max-h-[750px] overflow-y-auto">
 		<thead>
 			<tr class="bg-green-900 text-white text-left sticky top-0">
-				<th class="p-2">First Name</th>
+				<th class="p-2"><input
+					class="mr-4"
+					type="checkbox"
+					bind:checked={allTeachers}
+					on:change={changeAllTeachers}
+					/>First Name</th>
 				<th class="p-2">Last Name</th>
 				<th class="p-2">Email</th>
 			</tr>
@@ -28,14 +53,15 @@
 			{#each teachers as teacher}
 				<tr
 					class="teacher-row even:bg-green-100 hover:bg-gray-200 hover:cursor-pointer"
-					on:click={triggerModal}
+					on:click={() => handleDrawer(teacher)}
 				>
 					<td class="p-2">
 						<input
 							class="mr-4"
 							type="checkbox"
 							value={teacher.id}
-							on:click|stopPropagation={() => selectItem(teacher.id)}
+							bind:group={selectedTeachers}
+							on:click|stopPropagation
 						/>
 						{teacher.first_name}
 					</td>
@@ -48,5 +74,3 @@
 {:else}
 	<p>No Teachers to show!</p>
 {/if}
-
-<SimpleDrawer isOpen={showModal} {school} on:close={closeModal} />

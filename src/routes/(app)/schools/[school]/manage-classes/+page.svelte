@@ -5,6 +5,7 @@
 	import { triggerDrawer, closeDrawer } from '$lib/drawerStore.js';
 	import { triggerModal } from '$lib/modalStore.js';
 	import { onDestroy } from 'svelte';
+	import { classDataStore } from "$lib/classDataStore.js";
 	export let data;
 	const { school } = data;
 	$: classes = data.classes;
@@ -30,12 +31,12 @@
 		});
 
 		const classData = await req.json();
+		classDataStore.set(classData);
 
 		triggerDrawer({
 			content: ClassContents,
 			header: section.name,
 			props: {
-				classData,
 				school: school,
 				section: section.id
 			}

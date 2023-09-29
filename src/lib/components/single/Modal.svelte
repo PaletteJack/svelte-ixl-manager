@@ -1,11 +1,26 @@
 <script>
     import { modal, closeModal } from '$lib/modalStore.js';
 	import X from "$lib/svgs/X.svelte"
+	import ArrowDown from '$lib/svgs/ArrowDown.svelte';
+	import { afterUpdate } from 'svelte';
     let dialog;
 	$: contentComponent = $modal.content
     $: if (dialog && $modal.active) dialog.showModal();
     $: if (dialog && !$modal.active) dialog.close();
 	$: modalStyles = $modal.styles ?? ""
+	let isOverflowing = false
+
+	afterUpdate(() => {
+		isOverflowing = dialog && dialog.clientHeight < dialog.scrollHeight;
+	})
+
+	const scrollToBottom = () => {
+		dialog.scrollTop = dialog.scrollHeight;
+	}
+
+	const scrollToTop = () => {
+	    dialog.scrollTop = 0;
+	}
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -21,9 +36,15 @@
 			<h2 class="text-2xl font-semibold">
 				{$modal.header}
 			</h2>
-			<button autofocus on:click={closeModal}>
-				<X styles="w-8 h-8"/>
-			</button>
+			<div class="flex gap-2 items-center">
+				{#if isOverflowing}
+				<button class="rounded-full p-1" on:click={scrollToTop}><ArrowDown styles={"w-6 h-6 rotate-180"} /></button>
+				<button class="rounded-full p-1" on:click={scrollToBottom}><ArrowDown styles={"w-6 h-6"} /></button>
+				{/if}
+				<button class="rounded-full" autofocus on:click={closeModal}>
+					<X styles="w-8 h-8"/>
+				</button>
+			</div>
 		</div>
 		<hr class="mt-2" />
         <div class="pt-4">

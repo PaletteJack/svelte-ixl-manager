@@ -1,11 +1,12 @@
 <script>
-    export let sectionID;
-    export let teachers;
     import { enhance, applyAction } from "$app/forms"
     import { invalidateAll } from "$app/navigation"
     import { closeModal } from "$lib/modalStore";
     import { triggerToast } from "$lib/toastStore";
-
+    import { classDataStore } from "$lib/classDataStore"
+    export let sectionID;
+    export let teachers;
+    
     let selectedTeachers = [];
     let checkAllTeachers = false;
 
@@ -25,6 +26,7 @@
             switch(result.type) {
                 case 'success':
                     formElement.reset();
+                    classDataStore.set(result.data.newData);
                     await applyAction(result);
                     await invalidateAll();
                     triggerToast({message: result.data.message, bg: "bg-green-500"})

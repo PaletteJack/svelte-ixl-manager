@@ -9,7 +9,7 @@
 <div class="flex flex-col gap-2 mt-2">
 {#if schools.length > 0}
     {#each schools as school}
-        <a class="link" href="/schools/{school.id}/manage-classes">{school.name}</a>
+        <a class="link w-fit" href="/schools/{school.id}/manage-classes">{school.name}</a>
     {/each}
 {:else}
     <p>No schools to show! <a class="link" href="/admin">Load Data?</a></p>

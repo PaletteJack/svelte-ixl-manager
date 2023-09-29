@@ -5,6 +5,7 @@
     import { invalidateAll } from "$app/navigation"
     import { closeModal } from "$lib/modalStore";
     import { triggerToast } from "$lib/toastStore";
+    import { classDataStore } from "$lib/classDataStore"
 
     let selectedStudents = [];
     let checkAllStudents = false;
@@ -25,6 +26,7 @@
             switch(result.type) {
                 case 'success':
                     formElement.reset();
+                    classDataStore.set(result.data.newData);
                     await applyAction(result);
                     await invalidateAll();
                     triggerToast({message: result.data.message, bg: "bg-green-500"})
