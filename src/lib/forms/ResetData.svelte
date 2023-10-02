@@ -15,10 +15,10 @@
                     formElement.reset();
                     await applyAction(result);
                     await invalidateAll();
-                    triggerToast({message: result.data.message, bg: "bg-green-500"})
+                    triggerToast({message: result.data.message, bg: "success-toast"})
                     break;
                 case 'failure':
-                    triggerToast({message: result.data.message, bg: "bg-red-500"})
+                    triggerToast({message: result.data.message, bg: "fail-toast"})
                     break;
                 default:
                     break;

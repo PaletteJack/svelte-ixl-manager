@@ -1,8 +1,13 @@
 <script>
-	import UserContents from "$lib/components/UserContents.svelte";
-	import { triggerDrawer } from "$lib/drawerStore"
+	import TeacherContents from "$lib/components/TeacherContents.svelte";
+	import { triggerModal } from "$lib/modalStore"
+	import { triggerDrawer, closeDrawer } from "$lib/drawerStore"
+	import { onDestroy } from "svelte";
+	import AddTeacher from "$lib/forms/AddTeacher.svelte";
+	import DeleteTeacher from "$lib/forms/DeleteTeacher.svelte";
 	export let data;
-	const { school, teachers } = data;
+	const { school } = data;
+	$: teachers = data.teachers
 
 	let selectedTeachers = [];
 	let allTeachers = false;
@@ -20,20 +25,47 @@
 		const teacherData = await req.json();
 
 		triggerDrawer({
-			content: UserContents,
+			content: TeacherContents,
 			header: `${teacher.first_name} ${teacher.last_name}`,
 			props: {
 				user: teacher,
-				sections: teacherData
+				sections: teacherData,
+				school: school.id
 			}
 		});
 
 	};
+
+	const newTeacher = () => {
+		triggerModal({
+			content: AddTeacher,
+			header: "Create new teacher",
+			props: {
+				schoolID: school.id
+			}
+		})
+	}
+
+	const deleteTeacher = () => {
+		triggerModal({
+			content: DeleteTeacher,
+			header: "Are you sure?",
+			props: {
+				teachers: selectedTeachers
+			}
+		})
+	}
+
+	onDestroy(() => {
+		closeDrawer()
+	})
 </script>
 
 <div class="w-full flex gap-4 mb-4">
-	<button class="btn w-btn bg-green-500 hover:bg-green-400 text-white">Add</button>
-	<button class="btn w-btn bg-red-500 hover:bg-red-400 text-white">Delete</button>
+	<button class="btn w-btn bg-green-500 hover:bg-green-400 text-white" on:click={newTeacher}>Add</button>
+	{#if selectedTeachers.length > 0}
+	<button class="btn w-btn bg-red-500 hover:bg-red-400 text-white" on:click={deleteTeacher}>Delete</button>
+	{/if}
 </div>
 {#if teachers.length > 0}
 	<table class="table-auto w-full border-collapse max-h-[750px] overflow-y-auto">

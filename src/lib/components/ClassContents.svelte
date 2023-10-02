@@ -32,13 +32,7 @@
     }
 
 	const addTeachers = async () => {
-		const req = await fetch('/api/get-school-teachers', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ school_id: school.id, section_id: section })
-		});
+		const req = await fetch(`/api/get-school-teachers?id=${school.id}&section=${section}`);
 
 		const teachers = await req.json();
 
@@ -79,13 +73,7 @@
     }
 
 	const addStudents = async () => {
-		const req = await fetch('/api/get-school-students', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ school_id: school.id, section_id: section })
-		});
+		const req = await fetch(`/api/get-school-students?id=${school.id}&section=${section}`);
 
 		const students = await req.json();
 

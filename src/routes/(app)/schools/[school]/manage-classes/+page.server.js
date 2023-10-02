@@ -63,13 +63,7 @@ export const actions = {
             })
         }
 
-        const req = await fetch('/api/get-section-users', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ id: section_id })
-		});
+        const req = await fetch(`/api/get-section-users?id=${section_id}`);
 
 		const classData = await req.json();
 
@@ -93,13 +87,7 @@ export const actions = {
             })
         }
 
-        const req = await fetch('/api/get-section-users', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ id: section_id })
-		});
+        const req = await fetch(`/api/get-section-users?id=${section_id}`)
 
 		const classData = await req.json();
 
@@ -123,13 +111,7 @@ export const actions = {
             })
         }
 
-        const req = await fetch('/api/get-section-users', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ id: section_id })
-		});
+        const req = await fetch(`/api/get-section-users?id=${section_id}`)
 
 		const classData = await req.json();
 
@@ -154,13 +136,7 @@ export const actions = {
             })
         }
 
-        const req = await fetch('/api/get-section-users', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ id: section_id })
-		});
+        const req = await fetch(`/api/get-section-users?id=${section_id}`)
 
 		const classData = await req.json();
 

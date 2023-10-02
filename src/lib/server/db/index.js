@@ -1,4 +1,3 @@
-import { json } from "@sveltejs/kit"
 import { v4 as uuidv4 } from "uuid"
 import { generateUsername } from "$lib/utils"
 import * as argon2 from "argon2"
@@ -19,7 +18,10 @@ export const createUser = async (data) => {
     `)
 
     const id = uuidv4();
-    const { first_name, last_name, password } = data;
+    let { first_name, last_name } = data;
+    const { password } = data;
+    first_name = first_name.trim()
+    last_name = last_name.trim()
     const display_name = `${first_name} ${last_name}`;
     const username = await generateUsername(first_name, last_name);
     let password_hash;
@@ -54,7 +56,10 @@ export const createSuperUser = async (data) => {
     `)
 
     const id = uuidv4();
-    const { first_name, last_name, password } = data;
+    const { password } = data;
+    let { first_name, last_name } = data;
+    first_name = first_name.trim()
+    last_name = last_name.trim()
     const display_name = `${first_name} ${last_name}`;
     const username = "Admin"
     const admin = 1;
@@ -357,6 +362,51 @@ export const getTeacherSections = (id) => {
     return sections
 }
 
+export const createNewTeacher = (formData) => {
+    let { first_name, last_name, email } = formData;
+    first_name = first_name.trim()
+    last_name = last_name.trim()
+    email = email.trim()
+    const school_id = Number(formData.school)
+    const username = formData.username || email
+    const teacher_id = formData.teacher_id || email
+
+    const stmt = db.prepare(`
+    insert into teacher(teacher_id, school_id, first_name, last_name, email, username)
+    values (?, ?, ?, ?, ?, ?)
+    `)
+
+    try {
+        stmt.run(teacher_id, school_id, first_name, last_name, email, username)
+    } catch (err) {
+        return {
+            error: err
+        }
+    }
+
+    return null
+}
+
+export const deleteTeachers = (teacher_ids) => {
+    const deletion = db.prepare(`
+    delete from teacher
+    where id = ?
+    `)
+
+    const deleteMany = db.transaction((ids) => {
+        for (const id of ids) deletion.run(id)
+    })
+
+    try {
+        deleteMany(teacher_ids);
+    } catch (err) {
+        return {
+            error: err
+        }
+    }
+
+    return null
+}
 
 /* ----------------- Students ----------------- */
 

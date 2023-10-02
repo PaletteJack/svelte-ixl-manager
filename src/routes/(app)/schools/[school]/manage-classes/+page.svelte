@@ -22,13 +22,7 @@
 	}
 
 	const handleDrawer = async (section) => {
-		const req = await fetch('/api/get-section-users', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ id: section.id })
-		});
+		const req = await fetch(`/api/get-section-users?id=${section.id}`)
 
 		const classData = await req.json();
 		classDataStore.set(classData);

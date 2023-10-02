@@ -130,20 +130,15 @@
 
 	const submitForm = ({ formElement, formData, action, cancel, submitter }) => {
 		return async ({ result, update }) => {
-			// const submissionResults = [...result.data.errors]
-			// console.log(submissionResults);
 			switch (result.type) {
 				case 'success':
 					formElement.reset();
 					await applyAction(result);
 					await invalidateAll();
-					triggerToast({ message: 'Uploaded data successfully', bg: 'bg-green-500' });
+					triggerToast({ message: 'Uploaded data successfully', bg: 'success-toast' });
 					break;
 				case 'failure':
-					triggerToast.Page({
-						message: 'There was a problem uploading your data.',
-						bg: 'bg-red-500'
-					});
+					triggerToast({ message: 'There was a problem uploading your data.', bg: 'fail-toast' });
 					break;
 				default:
 					break;
