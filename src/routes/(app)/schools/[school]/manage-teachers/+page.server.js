@@ -1,5 +1,5 @@
 import { getSchoolTeachers } from '$lib/server/db';
-import { createNewTeacher, deleteTeachers } from '$lib/server/db/index.js';
+import { createNewTeacher, deleteTeachers, assignSectionToTeacher, getTeacherSections, deleteSectionsFromTeacher } from '$lib/server/db/index.js';
 import { fail } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageLoad} */
@@ -19,7 +19,7 @@ export const actions = {
 
         if (result) {
             return fail(400, {
-                message: result.message
+                message: `Error: ${result.error}`
             })
         }
 
@@ -36,12 +36,54 @@ export const actions = {
 
         if (result) {
             return fail(400, {
-                message: result.message
+                message: `Error: ${result.error}`
             })
         }
 
         return {
             message: "Teacher(s) deleted"
+        }
+    },
+
+    addSectionToTeacher: async ({ request }) => {
+        const body = Object.fromEntries(await request.formData());
+        const sections = body.sections.split(",").map(Number)
+        const teacher_id = Number(body.teacher_id)
+
+        const result = assignSectionToTeacher(sections, teacher_id);
+
+        if (result) {
+            return fail(400, {
+                message: `Error: ${result.error}`
+            })
+        }
+
+        const newData = getTeacherSections(teacher_id)
+
+        return {
+            message: "Section(s) added",
+            newData
+        }
+    },
+
+    deleteSectionsFromTeacher: async ({ request }) => {
+        const body = Object.fromEntries(await request.formData());
+        const sections = body.sections.split(",").map(Number)
+        const teacher_id = Number(body.teacher_id)
+        
+        const result = deleteSectionsFromTeacher(sections, teacher_id);
+
+        if (result) {
+            return fail(400, {
+                message: `Error: ${result.error}`
+            })
+        }
+
+        const newData = getTeacherSections(teacher_id)
+
+        return {
+            message: "Section(s) added",
+            newData
         }
     }
 };

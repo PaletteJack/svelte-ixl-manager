@@ -1,9 +1,19 @@
 <script>
-	export let data;
-	export let user, sections;
-	const { school } = data;
+	import AddSectionToStudent from "../forms/AddSectionToStudent.svelte";
+	import DeleteSectionFromStudent from "../forms/DeleteSectionFromStudent.svelte";
+	import { triggerModal } from "$lib/modalStore"
+	import { studentDataStore } from "$lib/studentDataStore"
+	import { onDestroy } from "svelte";
+	export let user, school;
 	let selectedSections = [];
     let checkAllSections = false;
+	let studentData;
+
+	const unsubscribe = studentDataStore.subscribe(value => {
+		studentData = value;
+	})
+
+	$: sections = studentData
 
     const handleAllSections = () => {
 
@@ -14,15 +24,41 @@
         }
     }
 
-	const addSection = () => {
+	const addSection = async () => {
 
+		const req = await fetch(`/api/get-student-unassigned-sections?school_id=${school}&student_id=${user.id}`)
+
+		const sections = await req.json();
+
+		triggerModal({
+			content: AddSectionToStudent,
+			header: "Add Classes",
+			props: {
+				sections,
+				studentID: user.id
+			}
+		})
 	}
+
+	const deleteSection = async () => {
+
+		triggerModal({
+			content: DeleteSectionFromStudent,
+			header: "Are you sure?",
+			props: {
+				sections: selectedSections,
+				studentID: user.id
+			}
+		})
+	}
+
+	onDestroy(unsubscribe)
 
 </script>
 
 <div class="w-full px-4">
-	<div id="student-wrapper" class="px-4">
-		<div id="student-info">
+	<div class="px-4">
+		<div>
 			<div class="w-full py-2 flex flex-col gap-2">
 				<p>User ID: {user.id}</p>
 				<p>Name: {user.first_name} {user.last_name}</p>
@@ -32,14 +68,14 @@
 	</div>
 
 	<div class="w-full flex gap-4 mb-4">
-		<button class="btn add-btn" on:click={addSection}>Add Section</button>
+		<button class="btn add-btn" on:click={addSection}>Add Classes</button>
 		{#if selectedSections.length > 0}
-			<button class="btn delete-btn">Delete Section</button>
+			<button class="btn delete-btn" on:click={deleteSection}>Delete Classes</button>
 		{/if}
 	</div>
 
-	<div id="student-enrollments-wrapper" class="px-4">
-		<div id="student-enrollments">
+	<div class="px-4">
+		<div>
 			{#if sections.length > 0}
 			<div class="w-full flex flex-col">
 				<table class="table-auto w-full border-collapse max-h-[725px] overflow-y-auto">
@@ -75,6 +111,8 @@
 					</tbody>
 				</table>
 			</div>
+			{:else}
+			<p>No classes assigned to this student.</p>
 			{/if}
 		</div>
 	</div>

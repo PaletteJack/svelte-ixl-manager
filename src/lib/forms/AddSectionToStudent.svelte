@@ -3,9 +3,9 @@
     import { invalidateAll } from "$app/navigation"
     import { closeModal } from "$lib/modalStore";
     import { triggerToast } from "$lib/toastStore";
-    import { teacherDataStore } from "$lib/teacherDataStore.js"
+    import { studentDataStore } from "$lib/studentDataStore.js"
     export let sections;
-    export let teacherID;
+    export let studentID;
     
     let selectedSections = [];
     let checkAllSections = false;
@@ -26,7 +26,7 @@
             switch(result.type) {
                 case 'success':
                     formElement.reset();
-                    teacherDataStore.set(result.data.newData);
+                    studentDataStore.set(result.data.newData);
                     await applyAction(result);
                     await invalidateAll();
                     triggerToast({message: result.data.message, bg: "success-toast"})
@@ -74,9 +74,9 @@
         {/each}
     </tbody>
 </table>
-<form action="?/addSectionToTeacher" method="POST" use:enhance={submitForm}>
+<form action="?/addSectionToStudent" method="POST" use:enhance={submitForm}>
     <input type="hidden" value={selectedSections} name="sections">
-    <input type="hidden" value={teacherID} name="teacher_id">
+    <input type="hidden" value={studentID} name="student_id">
     <div class="w-full flex flex-row-reverse mt-4">
         <button class="btn bg-green-500 hover:bg-green-400 text-white">
             Add Classes

@@ -22,7 +22,7 @@ export const actions = {
         
         if (result) {
             return fail(400, {
-                message: result.error
+                message: `Error: ${result.error}`
             })
         }
 
@@ -39,7 +39,7 @@ export const actions = {
 
         if (result) {
             return fail(400, {
-                message: result.error
+                message: `Error: ${result.error}`
             })
         }
 
@@ -59,7 +59,7 @@ export const actions = {
 
         if (result) {
             return fail(400, {
-                message: result.error
+                message: `Error: ${result.error}`
             })
         }
 
@@ -83,7 +83,7 @@ export const actions = {
 
         if (result) {
             return fail(400, {
-                message: result.error
+                message: `Error: ${result.error}`
             })
         }
 
@@ -107,7 +107,7 @@ export const actions = {
 
         if (result) {
             return fail(400, {
-                message: result.error
+                message: `Error: ${result.error}`
             })
         }
 
@@ -132,7 +132,7 @@ export const actions = {
 
         if (result) {
             return fail(400, {
-                message: result.error
+                message: `Error: ${result.error}`
             })
         }
 

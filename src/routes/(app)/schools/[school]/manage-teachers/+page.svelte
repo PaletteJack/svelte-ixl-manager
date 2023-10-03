@@ -1,8 +1,9 @@
 <script>
 	import TeacherContents from "$lib/components/TeacherContents.svelte";
-	import { triggerModal } from "$lib/modalStore"
-	import { triggerDrawer, closeDrawer } from "$lib/drawerStore"
+	import { triggerModal } from "$lib/modalStore";
+	import { triggerDrawer, closeDrawer } from "$lib/drawerStore";
 	import { onDestroy } from "svelte";
+	import { teacherDataStore } from "$lib/teacherDataStore.js";
 	import AddTeacher from "$lib/forms/AddTeacher.svelte";
 	import DeleteTeacher from "$lib/forms/DeleteTeacher.svelte";
 	export let data;
@@ -22,14 +23,15 @@
 
 	const handleDrawer = async (teacher) => {
 		const req = await fetch(`/api/get-teacher?id=${teacher.id}`)
+
 		const teacherData = await req.json();
+		teacherDataStore.set(teacherData);
 
 		triggerDrawer({
 			content: TeacherContents,
 			header: `${teacher.first_name} ${teacher.last_name}`,
 			props: {
 				user: teacher,
-				sections: teacherData,
 				school: school.id
 			}
 		});
@@ -59,6 +61,7 @@
 	onDestroy(() => {
 		closeDrawer()
 	})
+	
 </script>
 
 <div class="w-full flex gap-4 mb-4">

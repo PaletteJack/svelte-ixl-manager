@@ -1,11 +1,12 @@
 <script>
     export let data;
+    import ArrowDown from "$lib/svgs/ArrowDown.svelte"
     const { schools } = data;
 </script>
 
 <div class="flex items-center gap-4">
-    <h1 class="text-3xl text-green-950">Select a School</h1>
-    <a class="link" href="/schools/manage-schools">Manage Schools</a>
+    <a class="" href="/schools"><ArrowDown styles="w-6 h-6 rotate-90" /></a>
+    <h1 class="text-3xl text-green-950">School Management</h1>
 </div>
 <hr class="mb-2" />
 

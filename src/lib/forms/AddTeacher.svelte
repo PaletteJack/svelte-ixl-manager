@@ -36,11 +36,11 @@
         <div class="w-full flex gap-4">
             <input class="input" type="email" name="email" placeholder="Email">
         </div>
-        <p class="text-lg">Optional Fields</p>
+        <p class="text-lg">Optional Fields <span class="text-green-700">(these fields default to email)</span></p>
         <hr>
         <div class="w-full flex gap-4">
-            <input class="input" type="text" name="username" placeholder="Username (defaults to email)">
-            <input class="input" type="text" name="teacher_id" placeholder="Teacher ID (defaults to email)">
+            <input class="input" type="text" name="username" placeholder="Username">
+            <input class="input" type="text" name="teacher_id" placeholder="Teacher ID">
         </div>
         <div class="w-full flex flex-row-reverse mt-4">
             <button class="btn bg-green-500 hover:bg-green-400 text-white">
