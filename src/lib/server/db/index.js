@@ -179,7 +179,7 @@ export const resetDatabase = () => {
 
 export const getAllSchools = () => {
     const stmt = db.prepare(`
-    select id, name from school
+    select * from school
     `)
     const schools = stmt.all();
 
@@ -195,6 +195,43 @@ export const getSchool = (id) => {
 
     return school;
 }
+
+export const getSchoolStudentCount = (id) => {
+    const stmt = db.prepare(`
+    select count(*) as student_count
+    from student
+    where school_id = ?
+    `)
+
+    const count = stmt.get(id)
+
+    return count;
+}
+
+export const getSchoolTeacherCount = (id) => {
+    const stmt = db.prepare(`
+    select count(*) as teacher_count
+    from teacher
+    where school_id = ?
+    `)
+
+    const count = stmt.get(id)
+
+    return count;
+}
+
+export const getSchoolSectionCount = (id) => {
+    const stmt = db.prepare(`
+    select count(*) as section_count
+    from section
+    where school_id = ?
+    `)
+
+    const count = stmt.get(id)
+
+    return count;
+}
+
 
 
 /* ----------------- Sections ----------------- */
@@ -680,7 +717,7 @@ export const deleteSectionsFromStudent = (section_ids, student_id) => {
 
 export const getGrades = () => {
     const stmt = db.prepare(`
-    select id, name from grade
+    select * from grade
     `)
 
     const sections = stmt.all()

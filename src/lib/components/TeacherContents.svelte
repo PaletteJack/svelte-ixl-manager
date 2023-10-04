@@ -60,9 +60,9 @@
 	<div class="px-4">
 		<div>
 			<div class="w-full py-2 flex flex-col gap-2">
-				<p>User ID: {user.id}</p>
-				<p>Name: {user.first_name} {user.last_name}</p>
-				<p>Email: {user.email}</p>
+				<p>Teacher ID: {user.teacher_id}</p>
+				<p>{user.first_name} {user.last_name}</p>
+				<p>{user.email}</p>
 			</div>
 		</div>
 	</div>

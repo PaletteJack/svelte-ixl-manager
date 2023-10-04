@@ -250,7 +250,7 @@
 		</form>
 	</section>
 	<section class="w-full">
-		<p class="text-2xl mt-4 font-semibold">Reset Database</p>
+		<h1 class="text-3xl text-green-950">Reset Database</h1>
 		<hr class="border-green-700 mb-2" />
 		<p class="my-2">Delete all records in the database.</p>
 		<button class="btn text-white bg-red-500 hover:bg-red-400" on:click={databaseReset}
