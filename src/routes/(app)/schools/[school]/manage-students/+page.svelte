@@ -1,11 +1,10 @@
 <script>
 	import StudentContents from "$lib/components/StudentContents.svelte";
-	import { triggerModal } from "$lib/modalStore";
-	import { triggerDrawer, closeDrawer } from "$lib/drawerStore";
-	import { onDestroy } from "svelte";
+	import AddStudent from "$lib/forms/students/AddStudent.svelte";
+	import DeleteStudent from "$lib/forms/students/DeleteStudent.svelte";
+	import { triggerDrawer, closeDrawer, triggerModal } from "$lib/stores.js";
 	import { studentDataStore } from "$lib/studentDataStore.js";
-	import AddStudent from "$lib/forms/AddStudent.svelte";
-	import DeleteStudent from "$lib/forms/DeleteStudent.svelte";
+	import { onDestroy } from "svelte";
 	export let data;
 	const { school } = data;
 	const grades = data.streamed.grades

@@ -19,7 +19,8 @@ create table if not exists school (
     school_id integer unique not null,
     name text not null,
     initials text not null,
-    license_type text
+    license_type text,
+    license_cap integer
 );
 
 create table if not exists grade (

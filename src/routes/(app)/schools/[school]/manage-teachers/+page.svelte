@@ -1,11 +1,10 @@
 <script>
 	import TeacherContents from "$lib/components/TeacherContents.svelte";
-	import { triggerModal } from "$lib/modalStore";
-	import { triggerDrawer, closeDrawer } from "$lib/drawerStore";
-	import { onDestroy } from "svelte";
+	import DeleteTeacher from "$lib/forms/teachers/DeleteTeacher.svelte";
+	import AddTeacher from "$lib/forms/teachers/AddTeacher.svelte";
+	import { triggerDrawer, closeDrawer, triggerModal } from "$lib/stores.js";
 	import { teacherDataStore } from "$lib/teacherDataStore.js";
-	import AddTeacher from "$lib/forms/AddTeacher.svelte";
-	import DeleteTeacher from "$lib/forms/DeleteTeacher.svelte";
+	import { onDestroy } from "svelte";
 	export let data;
 	const { school } = data;
 	$: teachers = data.teachers

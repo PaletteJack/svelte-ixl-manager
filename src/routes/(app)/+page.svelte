@@ -15,7 +15,7 @@
 </script>
 
 <div class="px-4 lg:px-0">
-	<h1 class="text-3xl text-green-950">License Counts</h1>
+	<h1 class="section-header">License Counts</h1>
 	<hr class="mb-2" />
 	{#if schools.length != 0}
 		<div class="w-full">

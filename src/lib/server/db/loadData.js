@@ -5,12 +5,13 @@ export function insertSchool(row, db, errorList) {
     const initials = row["Initials"]
     const license_type = row["License Type"]
     const school_id = Number(row["School ID"])
+    const license_cap = Number(row["License Cap"])
 
     try {
         db.prepare(`
-        insert or ignore into school (school_id, name, initials, license_type)
-        values (?, ?, ?, ?)
-        `).run(school_id, school_name, initials, license_type)
+        insert or ignore into school (school_id, name, initials, license_type, license_cap)
+        values (?, ?, ?, ?, ?)
+        `).run(school_id, school_name, initials, license_type, license_cap)
     } catch (error) {
         errorList.push({
             type: "insert error",

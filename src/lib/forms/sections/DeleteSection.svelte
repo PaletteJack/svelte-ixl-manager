@@ -1,12 +1,8 @@
 <script>
     import { enhance, applyAction } from "$app/forms"
     import { invalidateAll } from "$app/navigation"
-    import { closeModal } from "$lib/modalStore";
-    import { triggerToast } from "$lib/toastStore";
-    import { studentDataStore } from "$lib/studentDataStore"
-    export let sections;
-    export let studentID;
-
+    import { closeModal, triggerToast } from "$lib/stores.js";
+    export let section_ids;
 
     const submitForm = ({formElement, formData, action, cancel, submitter}) => {
 
@@ -15,7 +11,6 @@
             switch(result.type) {
                 case 'success':
                     formElement.reset();
-                    studentDataStore.set(result.data.newData);
                     await applyAction(result);
                     await invalidateAll();
                     triggerToast({message: result.data.message, bg: "success-toast"})
@@ -30,15 +25,14 @@
     }
 </script>
 
-<p>Are you sure you want to unassign the selected classes?</p>
-<form action="?/deleteSectionsFromStudent" method="POST" use:enhance={submitForm}>
-    <input type="hidden" value={sections} name="sections">
-    <input type="hidden" value={studentID} name="student_id">
+<p>Are you sure you want to delete the selected section(s)? This action cannot be undone.</p>
+<form action="?/deleteSections" method="POST" use:enhance={submitForm}>
+    <input type="hidden" value={section_ids} name="ids">
     <div class="w-full flex flex-row-reverse gap-4 mt-6">
         <button
         class="btn bg-red-500 hover:bg-red-400 text-white"
         >
-            Unassign Students
+            Delete Sections
         </button>
     </div>
 </form>

@@ -1,5 +1,5 @@
 <script>
-    import { toast } from '$lib/toastStore.js';
+    import { toast } from '$lib/stores.js';
     import { slide } from 'svelte/transition';
 
     $: toastBG = $toast.bg ?? "bg-[#333]"

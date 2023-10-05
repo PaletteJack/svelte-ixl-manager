@@ -1,9 +1,9 @@
 <script>
-    export let schoolID;
     import { enhance, applyAction } from "$app/forms"
     import { invalidateAll } from "$app/navigation"
-    import { closeModal } from "$lib/modalStore";
-    import { triggerToast } from "$lib/toastStore";
+    import { closeModal, triggerToast } from "$lib/stores.js";
+    export let schoolID;
+    export let grades;
 
     const submitForm = ({formElement, formData, action, cancel, submitter}) => {
 
@@ -26,7 +26,7 @@
     }
 </script>
 
-<form action="?/addTeacher" method="POST" use:enhance={submitForm}>
+<form action="?/addStudent" method="POST" use:enhance={submitForm}>
     <input class="input" type="hidden" value={schoolID} name="school">
     <div class="w-full flex flex-col gap-4">
         <div class="w-full flex gap-4">
@@ -35,16 +35,24 @@
         </div>
         <div class="w-full flex gap-4">
             <input class="input" type="email" name="email" placeholder="Email">
+            <select name="grade" class="input" required>
+                {#each grades as grade}
+                <option value={grade.id}>{grade.name}</option>
+                {/each}
+            </select>
         </div>
         <p class="text-lg">Optional Fields <span class="text-green-700">(these fields default to email)</span></p>
         <hr>
         <div class="w-full flex gap-4">
             <input class="input" type="text" name="username" placeholder="Username">
-            <input class="input" type="text" name="teacher_id" placeholder="Teacher ID">
+            <input class="input" type="text" name="student_id" placeholder="Student ID">
+        </div>
+        <div class="w-full flex gap-4">
+            <input class="input" type="text" name="student_number" placeholder="Student Number">
         </div>
         <div class="w-full flex flex-row-reverse mt-4">
             <button class="btn bg-green-500 hover:bg-green-400 text-white">
-                Add Teacher
+                Add Student
             </button>
         </div>
     </div>

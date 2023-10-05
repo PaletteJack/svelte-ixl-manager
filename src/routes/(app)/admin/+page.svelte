@@ -5,8 +5,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import { validateRow, templates, validateCSV } from '$lib/csvValidation.js';
 	import { downloadBlob } from '$lib/utils.js';
-	import { triggerModal } from '$lib/modalStore';
-	import { triggerToast } from '$lib/toastStore';
+	import { triggerModal, triggerToast } from '$lib/stores.js';
 	import Upload from '$lib/svgs/Upload.svelte';
 	import Check from '$lib/svgs/Check.svelte';
 	import X from '$lib/svgs/X.svelte';
@@ -135,10 +134,11 @@
 					formElement.reset();
 					await applyAction(result);
 					await invalidateAll();
-					triggerToast({ message: 'Uploaded data successfully', bg: 'success-toast' });
+					clearForm();
+					triggerToast({ message: result.data.message, bg: 'success-toast' });
 					break;
 				case 'failure':
-					triggerToast({ message: 'There was a problem uploading your data.', bg: 'fail-toast' });
+					triggerToast({ message: result.data.message, bg: 'fail-toast' });
 					break;
 				default:
 					break;
@@ -153,7 +153,7 @@
 	}
 </style>
 
-<h1 class="text-3xl text-green-950">Load Data</h1>
+<h1 class="section-header">Load Data</h1>
 <hr class="mb-2" />
 
 <div class="w-full pb-4">
@@ -250,7 +250,7 @@
 		</form>
 	</section>
 	<section class="w-full">
-		<h1 class="text-3xl text-green-950">Reset Database</h1>
+		<h1 class="section-header">Reset Database</h1>
 		<hr class="border-green-700 mb-2" />
 		<p class="my-2">Delete all records in the database.</p>
 		<button class="btn text-white bg-red-500 hover:bg-red-400" on:click={databaseReset}

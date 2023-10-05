@@ -2,8 +2,7 @@
 	// import SchoolContents from '$lib/components/ClassContents.svelte';
 	// import AddSchool from '$lib/forms/AddSection.svelte';
 	// import DeleteSchool from '$lib/forms/DeleteSection.svelte';
-	import { triggerDrawer, closeDrawer } from '$lib/drawerStore.js';
-	import { triggerModal } from '$lib/modalStore.js';
+	import { triggerDrawer, closeDrawer, triggerModal } from '$lib/stores.js';
 	import { onDestroy } from 'svelte';
 	// import { schoolDataForm } from "$lib/schoolDataStore.js";
 	export let data;

@@ -232,8 +232,6 @@ export const getSchoolSectionCount = (id) => {
     return count;
 }
 
-
-
 /* ----------------- Sections ----------------- */
 
 export const getSchoolSections = (id) => {

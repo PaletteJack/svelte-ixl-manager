@@ -1,5 +1,5 @@
 <script>
-    import { modal, closeModal } from '$lib/modalStore.js';
+    import { modal, closeModal } from '$lib/stores.js';
 	import X from "$lib/svgs/X.svelte"
 	import ArrowDown from '$lib/svgs/ArrowDown.svelte';
 	import { afterUpdate } from 'svelte';

@@ -1,8 +1,7 @@
 <script>
     import { enhance, applyAction } from "$app/forms"
     import { invalidateAll } from "$app/navigation"
-    import { closeModal } from "$lib/modalStore";
-    import { triggerToast } from "$lib/toastStore";
+    import { closeModal, triggerToast } from "$lib/stores.js";
     export let students;
 
     const submitForm = ({formElement, formData, action, cancel, submitter}) => {

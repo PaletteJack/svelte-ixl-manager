@@ -1,21 +1,20 @@
 <script>
     import { enhance, applyAction } from "$app/forms"
     import { invalidateAll } from "$app/navigation"
-    import { closeModal } from "$lib/modalStore";
-    import { triggerToast } from "$lib/toastStore";
-    import { studentDataStore } from "$lib/studentDataStore.js"
-    export let sections;
-    export let studentID;
+    import { closeModal, triggerToast } from "$lib/stores.js";
+    import { classDataStore } from "$lib/classDataStore"
+    export let sectionID;
+    export let teachers;
     
-    let selectedSections = [];
-    let checkAllSections = false;
+    let selectedTeachers = [];
+    let checkAllTeachers = false;
 
-    const handleAllSections = () => {
+    const handleAllTeachers = () => {
 
-        if (checkAllSections) {
-			selectedSections = sections.map(s => s.id)
+        if (checkAllTeachers) {
+			selectedTeachers = teachers.map(t => t.id)
         } else {
-            selectedSections = [];
+            selectedTeachers = [];
         }
     }
 
@@ -26,7 +25,7 @@
             switch(result.type) {
                 case 'success':
                     formElement.reset();
-                    studentDataStore.set(result.data.newData);
+                    classDataStore.set(result.data.newData);
                     await applyAction(result);
                     await invalidateAll();
                     triggerToast({message: result.data.message, bg: "success-toast"})
@@ -41,7 +40,7 @@
     }
 </script>
 
-{#if sections.length > 0}
+{#if teachers.length > 0}
 <table class="table-auto w-full border-collapse max-h-[725px] overflow-y-auto">
     <thead>
         <tr class="text-left">
@@ -49,40 +48,40 @@
                 <input
                 class=""
                 type="checkbox"
-                bind:checked={checkAllSections}
-                on:change={handleAllSections}
+                bind:checked={checkAllTeachers}
+                on:change={handleAllTeachers}
                 />
             </th>
-            <th class="p-2 font-semibold">Section ID</th>
-            <th class="p-2 font-semibold">Grade</th>
+            <th class="p-2 font-semibold">Name</th>
+            <th class="p-2 font-semibold">Email</th>
         </tr>
     </thead>
     <tbody>
-        {#each sections as section}
+        {#each teachers as teacher}
             <tr class="even:bg-green-100">
                 <td class="p-2 flex items-center">
                     <input
                         class=""
                         type="checkbox"
-                        value={section.id}
-                        bind:group={selectedSections}
+                        value={teacher.id}
+                        bind:group={selectedTeachers}
                     />
                 </td>
-                <td class="p-2 w-fit">{section.section_id}</td>
-                <td class="p-2">{section.grade_name}</td>
+                <td class="p-2 w-fit">{teacher.first_name} {teacher.last_name}</td>
+                <td class="p-2">{teacher.email}</td>
             </tr>
         {/each}
     </tbody>
 </table>
-<form action="?/addSectionToStudent" method="POST" use:enhance={submitForm}>
-    <input type="hidden" value={selectedSections} name="sections">
-    <input type="hidden" value={studentID} name="student_id">
+<form action="?/addTeacherToSection" method="POST" use:enhance={submitForm}>
+    <input type="hidden" value={sectionID} name="section">
+    <input type="hidden" value={selectedTeachers} name="teachers">
     <div class="w-full flex flex-row-reverse mt-4">
         <button class="btn bg-green-500 hover:bg-green-400 text-white">
-            Add Classes
+            Add Teachers
         </button>
     </div>
 </form>
 {:else}
-<p>There are no classes left to add. <a href="#!" class="link">Add classes?</a></p>
+<p>There are no teachers left to add. <a href="#!" class="link">Add teachers?</a></p>
 {/if}

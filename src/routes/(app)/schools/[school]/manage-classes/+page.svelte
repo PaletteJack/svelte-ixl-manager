@@ -1,11 +1,10 @@
 <script>
 	import ClassContents from '$lib/components/ClassContents.svelte';
-	import AddSection from '$lib/forms/AddSection.svelte';
-	import DeleteSection from '$lib/forms/DeleteSection.svelte';
-	import { triggerDrawer, closeDrawer } from '$lib/drawerStore.js';
-	import { triggerModal } from '$lib/modalStore.js';
-	import { onDestroy } from 'svelte';
+	import AddSection from '$lib/forms/sections/AddSection.svelte';
+	import DeleteSection from '$lib/forms/sections/DeleteSection.svelte';
+	import { triggerModal, triggerDrawer, closeDrawer } from '$lib/stores.js';
 	import { classDataStore } from "$lib/classDataStore.js";
+	import { onDestroy } from 'svelte';
 	export let data;
 	const { school } = data;
 	$: classes = data.classes;

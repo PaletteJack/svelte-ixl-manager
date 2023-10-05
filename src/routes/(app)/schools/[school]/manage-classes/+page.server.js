@@ -76,8 +76,7 @@ export const actions = {
     addEnrollment: async ({ request, fetch }) => {
         const body = Object.fromEntries(await request.formData())
         const section_id = Number(body.section)
-        const ids = body.students.split(",")
-        const student_ids = ids.map(Number)
+        const student_ids = body.students.split(",").map(Number)
 
         const result = addEnrollment(section_id, student_ids)
 

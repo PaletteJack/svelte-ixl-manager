@@ -1,11 +1,11 @@
 <script>
-	import { drawer, closeDrawer } from '$lib/drawerStore';
+	import { drawer, closeDrawer } from '$lib/stores.js';
 	import { scale } from 'svelte/transition';
 </script>
 
 <style lang="postcss">
 	.drawer {
-		@apply fixed top-0 right-0 h-full w-full lg:w-6/12 mt-[96px] overflow-y-auto z-30 bg-green-50 shadow-xl pb-6;
+		@apply fixed top-0 right-0 h-full w-full lg:w-6/12 my-[96px] overflow-y-auto z-30 bg-green-50 shadow-xl pb-6;
 	}
 
 	.drawer-header {
@@ -20,7 +20,7 @@
 {#if $drawer.active}
 	<div class="drawer" in:scale={{duration: 300, opacity: 0.5, start: 0.5}} out:scale={{duration: 200, opacity: 0.3, start: 0.4}}>
 		<div class="drawer-header">
-			<p class="text-2xl">{$drawer.header}</p>
+			<p class="text-xl font-semibold">{$drawer.header}</p>
 			<button class="close-btn" on:click={closeDrawer}> X </button>
 		</div>
 

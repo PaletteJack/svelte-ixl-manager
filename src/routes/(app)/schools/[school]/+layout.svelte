@@ -8,7 +8,7 @@
 	<div>
 		<div class="flex items-center gap-4">
 			<a class="" href="/schools"><ArrowDown styles="w-6 h-6 rotate-90" /></a>
-			<h1 class="text-3xl text-green-950">{school.name}</h1>
+			<h1 class="section-header">{school.name}</h1>
 		</div>
 		<hr class="mb-4" />
 	</div>
