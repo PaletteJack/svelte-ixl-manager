@@ -1,6 +1,8 @@
 <script>
 	import AddSectionToStudent from "$lib/forms/students/AddSectionToStudent.svelte";
 	import DeleteSectionFromStudent from "$lib/forms/students/DeleteSectionFromStudent.svelte";
+	import UserDisplay from "./UserDisplay.svelte";
+	import InfoBox from "./InfoBox.svelte";
 	import { triggerModal } from "$lib/stores.js"
 	import { studentDataStore } from "$lib/studentDataStore"
 	import { onDestroy } from "svelte";
@@ -56,11 +58,22 @@
 
 </script>
 
-<div class="w-full py-2 flex flex-col gap-2">
-	<p>Student ID: {user.student_id}</p>
-	<p>{user.first_name} {user.last_name}</p>
-	<p>{user.email}</p>
-	<p>{user.username}</p>
+<UserDisplay>
+	<span slot="display">{user.first_name} {user.last_name}</span>
+</UserDisplay>
+<div class="w-full py-4 flex gap-2 overflow-x-auto">
+	<InfoBox>
+		<span slot="label">Teacher ID</span>
+		<span slot="info">{user.student_id}</span>
+	</InfoBox>
+	<InfoBox>
+		<span slot="label">Email</span>
+		<span slot="info">{user.email}</span>
+	</InfoBox>
+	<InfoBox>
+		<span slot="label">Username</span>
+		<span slot="info">{user.username}</span>
+	</InfoBox>
 </div>
 
 <div class="w-full flex gap-4 mb-4">

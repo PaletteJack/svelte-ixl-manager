@@ -28,10 +28,9 @@
 
 		triggerDrawer({
 			content: ClassContents,
-			header: section.name,
 			props: {
 				school: school,
-				section: section.id
+				section: section
 			}
 		});
 	};

@@ -28,7 +28,6 @@
 
 		triggerDrawer({
 			content: TeacherContents,
-			header: `${teacher.first_name} ${teacher.last_name}`,
 			props: {
 				user: teacher,
 				school: school.id
@@ -86,7 +85,7 @@
 		<tbody>
 			{#each teachers as teacher}
 				<tr
-					class="teacher-row even:bg-green-100 hover:bg-gray-200 hover:cursor-pointer"
+					class="even:bg-green-100 hover:bg-gray-200 hover:cursor-pointer"
 					on:click={() => handleDrawer(teacher)}
 				>
 					<td class="p-2">

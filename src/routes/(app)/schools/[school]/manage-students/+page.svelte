@@ -29,7 +29,6 @@
 
 		triggerDrawer({
 			content: StudentContents,
-			header: `${student.first_name} ${student.last_name}`,
 			props: {
 				user: student,
 				school: school.id

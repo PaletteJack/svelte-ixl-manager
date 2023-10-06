@@ -1,6 +1,7 @@
 <script>
 	import Chart from "chart.js/auto"
 	import { onMount } from "svelte";
+	import InfoBox from "./InfoBox.svelte";
     export let school;
     export let countData;
     const { student_count, teacher_count, section_count } = countData;
@@ -38,27 +39,50 @@
 		
 	})
     
-
 </script>
 
 <div class="w-full py-2 flex flex-col gap-2">
-	<div class="w-full flex gap-2">
-		<div class="flex flex-col justify-center items-center gap-4 flex-1">
-			<p>School ID: {school.school_id}</p>
-			<p>License Type: {school.license_type}</p>
+	<div class="w-full grid grid-cols-2 p-4">
+		<div class="custom-grid">
+			<InfoBox>
+				<span slot="label">School ID</span>
+				<span slot="info">{school.school_id}</span>
+			</InfoBox>
+			<InfoBox>
+				<span slot="label">License Type</span>
+				<span slot="info">{school.license_type}</span>
+			</InfoBox>
+			<InfoBox>
+				<span slot="label">License Cap</span>
+				<span slot="info">{school.license_cap}</span>
+			</InfoBox>
 			{#if student_count}
 				{#if school.license_cap - student_count >= 0}
-					<p class="text-green-600">{school.license_cap - student_count} licenses remaining</p>
+					<InfoBox>
+						<span slot="label">Licenses Remaining</span>
+						<span slot="info" class="text-green-600">{school.license_cap - student_count}</span>
+					</InfoBox>
 				{:else}
-					<p class="text-red-600">{Math.abs(school.license_cap - student_count)} licenses over</p>
+					<InfoBox>
+						<span slot="label" class="text-red-500">Licenses Over</span>
+						<span slot="info">{Math.abs(school.license_cap - student_count)}</span>
+					</InfoBox>
 				{/if}
 			{/if}
-			<p>License Cap: {school.license_cap}</p>
-			<p>{student_count} students</p>
-			<p>{teacher_count} teachers</p>
-			<p>{section_count} classrooms</p>
+			<InfoBox>
+				<span slot="label">Students</span>
+				<span slot="info">{student_count}</span>
+			</InfoBox>
+			<InfoBox>
+				<span slot="label">Teachers</span>
+				<span slot="info">{teacher_count}</span>
+			</InfoBox>
+			<InfoBox>
+				<span slot="label">Classrooms</span>
+				<span slot="info">{section_count}</span>
+			</InfoBox>
 		</div>
-		<div class="flex-1">
+		<div class="">
 			{#if ratio}
 			<canvas bind:this={chart} id="ratioChart"></canvas>
 			{:else}
@@ -87,5 +111,13 @@
 
 	.delete-btn {
 		@apply border-2 border-solid border-red-500 hover:bg-red-500 hover:text-white;
+	}
+
+	.custom-grid {
+		@apply flex gap-2 flex-wrap;
+	}
+
+	.custom-grid > * {
+		flex: 1 1 33%;
 	}
 </style>
