@@ -3,6 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ------------------ global ------------------ */
 body {
 	@apply bg-green-50;
 }
@@ -16,9 +17,34 @@ body {
 	font-family: 'MontaguSlab', serif;
 }
 
+.section-header {
+	@apply text-2xl font-semibold;
+}
+
+/* ------------------ buttons ------------------ */
 
 .btn {
-	@apply w-fit px-3 py-2 hover:shadow-lg transition-all rounded-sm;
+	@apply w-fit px-3 py-2 rounded-sm;
+}
+
+.btn-p {
+	@apply bg-emerald-600 text-white;
+}
+
+.btn-s {
+	@apply text-emerald-600 bg-green-100;
+}
+
+.btn-t {
+	@apply text-emerald-700 hover:bg-green-100 transition-all;
+}
+
+.btn-del {
+	@apply bg-red-500 text-white;
+}
+
+.diabled-button {
+	@apply bg-gray-300 text-gray-600 pointer-events-none;
 }
 
 .input {
@@ -33,9 +59,7 @@ body {
 	@apply text-green-700 underline;
 }
 
-.diabled-button {
-	@apply bg-gray-300 pointer-events-none;
-}
+/* ------------------ toasts ------------------ */
 
 .success-toast {
 	@apply bg-green-600;
@@ -43,8 +67,4 @@ body {
 
 .fail-toast {
 	@apply bg-red-500;
-}
-
-.section-header {
-	@apply text-2xl font-semibold;
 }

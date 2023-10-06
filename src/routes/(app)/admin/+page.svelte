@@ -234,14 +234,14 @@
 				<button
 					type="submit"
 					disabled={!uploadValid}
-					class="btn bg-green-300 hover:bg-green-200"
+					class="btn btn-p"
 					class:diabled-button={!uploadValid}
 				>
 					Submit Files
 				</button>
 				<button
 					type="button"
-					class="btn text-white bg-orange-600 hover:bg-orange-500"
+					class="btn btn-t"
 					on:click={clearForm}
 				>
 					Clear Form
@@ -253,7 +253,7 @@
 		<h1 class="section-header">Reset Database</h1>
 		<hr class="border-green-700 mb-2" />
 		<p class="my-2">Delete all records in the database.</p>
-		<button class="btn text-white bg-red-500 hover:bg-red-400" on:click={databaseReset}
+		<button class="btn btn-del" on:click={databaseReset}
 			>Reset Database</button
 		>
 	</section>

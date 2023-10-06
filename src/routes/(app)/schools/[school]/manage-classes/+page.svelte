@@ -69,15 +69,22 @@
 <div class="w-full flex gap-4 mb-4">
 	<button
 		id="classroom-add-class"
-		class="btn w-btn bg-green-500 hover:bg-green-400 text-white"
+		class="btn w-btn btn-p"
 		on:click={newSection}
 	>
 		Add
 	</button>
+	<!-- <button
+		id="classroom-add-class"
+		class="btn w-btn btn-p"
+		on:click={newSection}
+	>
+		Add
+	</button> -->
 	{#if selectedClasses.length > 0}
 		<button 
 		id="classroom-delete-class" 
-		class="btn w-btn bg-red-500 hover:bg-red-400 text-white"
+		class="btn w-btn btn-s"
 		on:click={deleteSections}
 		>
 			Delete

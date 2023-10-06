@@ -77,7 +77,7 @@
     <input type="hidden" value={sectionID} name="section">
     <input type="hidden" value={selectedStudents} name="students">
     <div class="w-full flex flex-row-reverse mt-4">
-        <button class="btn bg-green-500 hover:bg-green-400 text-white">
+        <button class="btn btn-p">
             Add Students
         </button>
     </div>

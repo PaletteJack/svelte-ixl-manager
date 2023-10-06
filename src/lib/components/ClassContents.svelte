@@ -112,21 +112,20 @@
 
 <div class="w-full mt-4 mb-4">
 	<div class="flex gap-0">
-		<button class="px-4 py-2 m-0" class:open-tab={tab == 0} on:click={() => tab = 0}>
+		<button class="px-4 py-2 m-0 border-b-2 border-b-transparent" class:open-tab={tab == 0} on:click={() => tab = 0}>
 			Teachers
 		</button>
-		<button class="px-4 py-2 m-0" class:open-tab={tab == 1} on:click={() => tab = 1}>
+		<button class="px-4 py-2 m-0 border-b-2 border-b-transparent" class:open-tab={tab == 1} on:click={() => tab = 1}>
 			Students
 		</button>
 	</div>
 </div>
 
 {#if tab == 0}
-	<p class="text-lg mt-4 mb-2 font-semibold">Assigned Teachers</p>
-	<div class="flex gap-2 mb-2">
-		<button class="btn add-btn" on:click={addTeachers}>Add Teacher</button>
+	<div class="flex w-full gap-2 mb-4">
+		<button class="btn btn-p" on:click={addTeachers}>Add Teacher</button>
 		{#if selectedTeachers.length > 0}
-			<button class="btn delete-btn" on:click={deleteTeachers}>Unassign Teachers</button>
+			<button class="btn btn-t" on:click={deleteTeachers}>Unassign Teachers</button>
 		{/if}
 	</div>
 	{#if teachers.length > 0}
@@ -168,11 +167,10 @@
 		<p>No teachers assigned to this section.</p>
 	{/if}
 {:else if tab == 1}
-	<p class="text-lg mt-4 mb-2 font-semibold">Assigned Students</p>
-	<div class="flex gap-2 mb-2">
-		<button class="btn add-btn" on:click={addStudents}> Add Student </button>
+	<div class="flex gap-2 mb-4">
+		<button class="btn btn-p" on:click={addStudents}> Add Student </button>
 		{#if selectedStudents.length > 0}
-			<button class="btn delete-btn" on:click={deleteStudents}>Unassign Students</button>
+			<button class="btn btn-t" on:click={deleteStudents}>Unassign Students</button>
 		{/if}
 	</div>
 	{#if students.length > 0}
@@ -218,14 +216,7 @@
 
 <style lang="postcss">
 	.open-tab {
-		@apply bg-gray-900 text-white;
+		@apply border-b-gray-900;
 	}
 
-	.add-btn {
-		@apply border-2 border-solid border-green-500 hover:bg-green-500 hover:text-white;
-	}
-
-	.delete-btn {
-		@apply border-2 border-solid border-red-500 hover:bg-red-500 hover:text-white;
-	}
 </style>

@@ -1,7 +1,7 @@
 
 
 <div class="px-4 py-2 rounded-md bg-white shadow-sm">
-    <p class="text-xs text-gray-400 font-sans">
+    <p class="text-[0.9rem] text-gray-400 font-sans">
         <slot name="label">
             <span>No Label</span>
         </slot>

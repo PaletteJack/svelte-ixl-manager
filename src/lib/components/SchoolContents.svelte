@@ -1,5 +1,7 @@
 <script>
 	import Chart from "chart.js/auto"
+	import Library from "../svgs/Library.svelte";
+	import UserDisplay from "$lib/components/UserDisplay.svelte"
 	import { onMount } from "svelte";
 	import InfoBox from "./InfoBox.svelte";
     export let school;
@@ -40,6 +42,11 @@
 	})
     
 </script>
+
+<UserDisplay>
+	<Library slot="icon" styles="w-10 h-10 text-green-800" />
+	<span slot="display">{school.name}</span>
+</UserDisplay>
 
 <div class="w-full py-2 flex flex-col gap-2">
 	<div class="w-full grid grid-cols-2 p-4">

@@ -51,7 +51,7 @@
             <input class="input" type="text" name="student_number" placeholder="Student Number">
         </div>
         <div class="w-full flex flex-row-reverse mt-4">
-            <button class="btn bg-green-500 hover:bg-green-400 text-white">
+            <button class="btn btn-p">
                 Add Student
             </button>
         </div>

@@ -4,7 +4,7 @@
 </script>
 
 <div class="flex items-center gap-4">
-    <h1 class="text-2xl text-green-950 font-semibold">Select a School</h1>
+    <h1 class="section-header">Select a School</h1>
     <a class="link" href="/schools/manage-schools">Manage Schools</a>
 </div>
 <hr class="mb-2" />

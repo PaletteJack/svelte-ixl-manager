@@ -30,7 +30,7 @@
     <input type="hidden" value={section_ids} name="ids">
     <div class="w-full flex flex-row-reverse gap-4 mt-6">
         <button
-        class="btn bg-red-500 hover:bg-red-400 text-white"
+        class="btn btn-del"
         >
             Delete Sections
         </button>

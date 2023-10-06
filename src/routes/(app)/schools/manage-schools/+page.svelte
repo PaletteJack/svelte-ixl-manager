@@ -10,13 +10,10 @@
 
 	const handleDrawer = async (school) => {
 		const req = await fetch(`/api/get-school-data?id=${school.id}`)
-
 		const schoolData = await req.json();
-        console.log(schoolData);
 
 		triggerDrawer({
 			content: SchoolContents,
-			header: school.name,
 			props: {
 				school: school,
 				countData: schoolData
@@ -25,7 +22,6 @@
 	};
 
 	const newSection = () => {
-
 		triggerModal({
 			content: AddSection,
 			header: "New Section",
