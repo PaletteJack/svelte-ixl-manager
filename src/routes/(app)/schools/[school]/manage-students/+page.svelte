@@ -65,9 +65,9 @@
 </script>
 
 <div class="w-full flex gap-4 mb-4">
-	<button class="btn w-btn bg-green-500 hover:bg-green-400 text-white" on:click={newStudent}>Add</button>
+	<button class="btn-sm btn-p" on:click={newStudent}>Add</button>
 	{#if selectedStudents.length > 0}
-	<button class="btn w-btn bg-red-500 hover:bg-red-400 text-white" on:click={deleteStudent}>Delete</button>
+	<button class="btn-sm btn-s" on:click={deleteStudent}>Delete</button>
 	{/if}
 </div>
 {#if students.length > 0}

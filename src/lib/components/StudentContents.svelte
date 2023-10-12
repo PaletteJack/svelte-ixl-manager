@@ -77,9 +77,9 @@
 </div>
 
 <div class="w-full flex gap-4 mb-4">
-	<button class="btn add-btn" on:click={addSection}>Add Classes</button>
+	<button class="btn-sm btn-p" on:click={addSection}>Add Classes</button>
 	{#if selectedSections.length > 0}
-		<button class="btn delete-btn" on:click={deleteSection}>Delete Classes</button>
+		<button class="btn-sm btn-t" on:click={deleteSection}>Delete Classes</button>
 	{/if}
 </div>
 
@@ -121,13 +121,3 @@
 {:else}
 <p>No classes assigned to this student.</p>
 {/if}
-
-<style lang="postcss">
-	.add-btn {
-		@apply border-2 border-solid border-green-500 hover:bg-green-500 hover:text-white;
-	}
-
-	.delete-btn {
-		@apply border-2 border-solid border-red-500 hover:bg-red-500 hover:text-white;
-	}
-</style>

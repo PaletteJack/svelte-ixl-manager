@@ -47,7 +47,7 @@
 	}
 
 	const deleteSections = () => {
-		if (selectedClasses.length > 0) {
+		if (selectedGrades.length > 0) {
 			triggerModal({
 				content: DeleteSection,
 				header: "Are you sure?",
@@ -69,7 +69,7 @@
 <div class="w-full flex gap-4 mb-4">
 	<button
 		id="classroom-add-class"
-		class="btn w-btn bg-green-500 hover:bg-green-400 text-white"
+		class="btn-sm btn-p"
 		on:click={newSection}
 	>
 		Add
@@ -77,7 +77,7 @@
 	{#if selectedGrades.length > 0}
 		<button 
 		id="classroom-delete-class" 
-		class="btn w-btn bg-red-500 hover:bg-red-400 text-white"
+		class="btn-sm btn-s"
 		on:click={deleteSections}
 		>
 			Delete

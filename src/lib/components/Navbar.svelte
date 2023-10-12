@@ -94,11 +94,11 @@
 
 <style lang="postcss">
 	.mobile-btn {
-		@apply relative inline-flex items-center justify-center rounded-md p-2 text-gray-200 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white;
+		@apply relative inline-flex items-center justify-center rounded-sm transition-all p-2 text-gray-200 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white;
 	}
 
 	.nav-link {
-		@apply select-none text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium;
+		@apply select-none text-gray-300 hover:bg-gray-700 hover:text-white rounded-sm px-3 py-2 text-sm font-medium transition-all;
 	}
 
 	.nav-active {

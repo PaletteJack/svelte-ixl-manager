@@ -123,9 +123,9 @@
 
 {#if tab == 0}
 	<div class="flex w-full gap-2 mb-4">
-		<button class="btn btn-p" on:click={addTeachers}>Add Teacher</button>
+		<button class="btn-sm btn-p" on:click={addTeachers}>Add Teacher</button>
 		{#if selectedTeachers.length > 0}
-			<button class="btn btn-t" on:click={deleteTeachers}>Unassign Teachers</button>
+			<button class="btn-sm btn-t" on:click={deleteTeachers}>Unassign Teachers</button>
 		{/if}
 	</div>
 	{#if teachers.length > 0}
@@ -168,9 +168,9 @@
 	{/if}
 {:else if tab == 1}
 	<div class="flex gap-2 mb-4">
-		<button class="btn btn-p" on:click={addStudents}> Add Student </button>
+		<button class="btn-sm btn-p" on:click={addStudents}> Add Student </button>
 		{#if selectedStudents.length > 0}
-			<button class="btn btn-t" on:click={deleteStudents}>Unassign Students</button>
+			<button class="btn-sm btn-t" on:click={deleteStudents}>Unassign Students</button>
 		{/if}
 	</div>
 	{#if students.length > 0}

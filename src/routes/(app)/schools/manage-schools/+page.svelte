@@ -41,7 +41,7 @@
 <div class="w-full flex gap-4 mb-4">
 	<button
 		id="classroom-add-class"
-		class="btn w-btn bg-green-500 hover:bg-green-400 text-white"
+		class="btn-sm btn-p"
 		on:click={newSection}
 	>
 		Add

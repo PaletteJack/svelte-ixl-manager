@@ -23,8 +23,12 @@ body {
 
 /* ------------------ buttons ------------------ */
 
-.btn {
-	@apply w-fit px-3 py-2 rounded-sm;
+.btn-lg {
+	@apply w-fit min-w-[102px] px-3 py-2 rounded-sm;
+}
+
+.btn-sm {
+	@apply w-fit px-4 py-1 rounded-sm text-sm;
 }
 
 .btn-p {
@@ -49,10 +53,6 @@ body {
 
 .input {
 	@apply px-2 py-1;
-}
-
-.w-btn {
-    width: min(102px, 100%);
 }
 
 .link {

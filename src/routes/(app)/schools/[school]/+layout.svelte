@@ -7,7 +7,7 @@
 <div class="px-4 lg:px-0 flex flex-col w-full">
 	<div>
 		<div class="flex items-center gap-4">
-			<a class="" href="/schools"><ArrowDown styles="w-6 h-6 rotate-90" /></a>
+			<a class="rounded-full p-2 border-2 border-transparent active:border-gray-900 hover:scale-105 hover:bg-green-200/50 transition-all" href="/schools"><ArrowDown styles="w-6 h-6 rotate-90" /></a>
 			<h1 class="section-header">{school.name}</h1>
 		</div>
 		<hr class="mb-4" />

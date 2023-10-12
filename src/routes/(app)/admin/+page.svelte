@@ -1,28 +1,22 @@
 <script>
-	import Papa from 'papaparse';
-	import JSZip from 'jszip';
+	import { validateRow, templates, validateCSV } from '$lib/csvValidation.js';
+	import { triggerModal, triggerToast } from '$lib/stores.js';
+	import ErrorList from '$lib/components/ErrorList.svelte';
+	import ResetData from '$lib/forms/ResetData.svelte';
 	import { enhance, applyAction } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
-	import { validateRow, templates, validateCSV } from '$lib/csvValidation.js';
 	import { downloadBlob } from '$lib/utils.js';
-	import { triggerModal, triggerToast } from '$lib/stores.js';
 	import Upload from '$lib/svgs/Upload.svelte';
 	import Check from '$lib/svgs/Check.svelte';
 	import X from '$lib/svgs/X.svelte';
-	import ErrorList from '$lib/components/ErrorList.svelte';
-	import ResetData from '$lib/forms/ResetData.svelte';
+	import Papa from 'papaparse';
+	import JSZip from 'jszip';
 
 	let files = [];
 	let fileInput;
-	let csvFiles = templates
-		.map((item) => {
-			return item.filename;
-		})
-		.sort();
+	let csvFiles = templates.map((item) => { return item.filename;}).sort();
 
-	$: containsAllFiles = csvFiles.every((expectedFile) =>
-		files.some((file) => file.filename === expectedFile)
-	);
+	$: containsAllFiles = csvFiles.every((expectedFile) => files.some((file) => file.filename === expectedFile));
 	$: filesValid = !files.every((file) => file.isValid);
 	$: uploadValid = containsAllFiles && filesValid;
 
@@ -234,14 +228,14 @@
 				<button
 					type="submit"
 					disabled={!uploadValid}
-					class="btn btn-p"
+					class="btn-lg btn-p"
 					class:diabled-button={!uploadValid}
 				>
 					Submit Files
 				</button>
 				<button
 					type="button"
-					class="btn btn-t"
+					class="btn-lg btn-t"
 					on:click={clearForm}
 				>
 					Clear Form
@@ -253,7 +247,7 @@
 		<h1 class="section-header">Reset Database</h1>
 		<hr class="border-green-700 mb-2" />
 		<p class="my-2">Delete all records in the database.</p>
-		<button class="btn btn-del" on:click={databaseReset}
+		<button class="btn-lg btn-del" on:click={databaseReset}
 			>Reset Database</button
 		>
 	</section>
