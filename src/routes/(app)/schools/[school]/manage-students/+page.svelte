@@ -3,7 +3,7 @@
 	import AddStudent from "$lib/forms/students/AddStudent.svelte";
 	import DeleteStudent from "$lib/forms/students/DeleteStudent.svelte";
 	import { triggerDrawer, closeDrawer, triggerModal } from "$lib/stores.js";
-	import { studentDataStore } from "$lib/studentDataStore.js";
+	import { studentDataStore } from "$lib/dataStore";
 	import { onDestroy } from "svelte";
 	export let data;
 	const { school } = data;

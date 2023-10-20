@@ -11,7 +11,7 @@
         <div class="flex flex-col gap-4">
             <input class="input" type="text" name="username" placeholder="username">
             <input class="input" type="password" name="password" placeholder="password">
-            <button type="submit" class="btn bg-gray-100 hover:bg-gray-50 !w-full">Login</button>
+            <button type="submit" class="py-1 bg-gray-100 hover:bg-gray-50 !w-full">Login</button>
         </div>
     </form>
 </div>

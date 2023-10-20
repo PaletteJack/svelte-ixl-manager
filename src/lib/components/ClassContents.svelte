@@ -4,7 +4,7 @@
 	import DeleteTeacherFromSection from "$lib/forms/sections/DeleteTeacherFromSection.svelte";
 	import DeleteStudentFromEnrollment from "$lib/forms/sections/DeleteStudentFromEnrollment.svelte";
 	import UserDisplay from "./UserDisplay.svelte";
-	import { classDataStore } from "$lib/classDataStore.js"
+	import { classDataStore } from "$lib/dataStore.js"
 	import { triggerModal } from "$lib/stores.js"
 	import { onDestroy } from "svelte";
 	import AcademicCap from "../svgs/AcademicCap.svelte";

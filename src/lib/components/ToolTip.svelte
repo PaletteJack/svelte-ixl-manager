@@ -44,6 +44,7 @@
 
 </script>
 
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div 
 class="relative w-fit hover:cursor-default" 
 on:mouseenter={mouseOver} 

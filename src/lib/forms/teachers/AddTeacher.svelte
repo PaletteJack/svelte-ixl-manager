@@ -42,7 +42,7 @@
             <input class="input" type="text" name="teacher_id" placeholder="Teacher ID">
         </div>
         <div class="w-full flex flex-row-reverse mt-4">
-            <button class="btn btn-p">
+            <button class="btn-sm btn-p">
                 Add Teacher
             </button>
         </div>

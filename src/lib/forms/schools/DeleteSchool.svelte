@@ -1,8 +1,10 @@
 <script>
+    import { closeModal, triggerToast } from "$lib/stores.js";
     import { enhance, applyAction } from "$app/forms"
     import { invalidateAll } from "$app/navigation"
-    import { closeModal, triggerToast } from "$lib/stores.js";
-    export let section_ids;
+    let inputValue = ''
+    export let school;
+    $: isValid = inputValue === school.name;
 
     const submitForm = ({formElement, formData, action, cancel, submitter}) => {
 
@@ -25,14 +27,17 @@
     }
 </script>
 
-<p>Are you sure you want to delete the selected section(s)? This action cannot be undone.</p>
-<form action="?/deleteSections" method="POST" use:enhance={submitForm}>
-    <input type="hidden" value={section_ids} name="ids">
-    <div class="w-full flex flex-row-reverse gap-4 mt-6">
-        <button
-        class="btn-sm btn-del"
+<p>Are you sure you want to delete this school? All associated classes, teachers, and students will be deleted.<br> Type in <span class="text-red-500">"{school.name}"</span> to confirm deletion.</p>
+<form action="?/deleteSchool" method="POST" use:enhance={submitForm}>
+    <input type="hidden" name="school" value={school.id}>
+    <div class="w-full flex gap-4 my-4">
+        <input class="input border-2 border-red-300 focus:outline-none" bind:value={inputValue} type="text" name="confirmation">
+        <button 
+        class="btn-lg btn-del"
+        class:diabled-button={!isValid}
+        disabled={!isValid}
         >
-            Delete Sections
+            Delete Database
         </button>
     </div>
 </form>

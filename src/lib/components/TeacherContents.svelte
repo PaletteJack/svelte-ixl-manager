@@ -4,7 +4,7 @@
 	import InfoBox from "./InfoBox.svelte";
 	import UserDisplay from "./UserDisplay.svelte";
 	import { triggerModal } from "$lib/stores.js"
-	import { teacherDataStore } from "$lib/teacherDataStore"
+	import { teacherDataStore } from "$lib/dataStore"
 	import { onDestroy } from "svelte";
 	export let user, school;
 	let selectedSections = [];

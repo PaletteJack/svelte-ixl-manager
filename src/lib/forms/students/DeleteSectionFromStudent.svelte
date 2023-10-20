@@ -2,7 +2,7 @@
     import { enhance, applyAction } from "$app/forms"
     import { invalidateAll } from "$app/navigation"
     import { closeModal, triggerToast } from "$lib/stores.js";
-    import { studentDataStore } from "$lib/studentDataStore"
+    import { studentDataStore } from "$lib/dataStore"
     export let sections;
     export let studentID;
 
@@ -35,7 +35,7 @@
     <input type="hidden" value={studentID} name="student_id">
     <div class="w-full flex flex-row-reverse gap-4 mt-6">
         <button
-        class="btn btn-del"
+        class="btn-sm btn-del"
         >
             Unassign Students
         </button>

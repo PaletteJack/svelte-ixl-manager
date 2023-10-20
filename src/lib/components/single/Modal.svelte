@@ -41,6 +41,7 @@
 				<button class="rounded-full p-1" on:click={scrollToTop}><ArrowDown styles={"w-6 h-6 rotate-180"} /></button>
 				<button class="rounded-full p-1" on:click={scrollToBottom}><ArrowDown styles={"w-6 h-6"} /></button>
 				{/if}
+				<!-- svelte-ignore a11y-autofocus -->
 				<button class="rounded-full" autofocus on:click={closeModal}>
 					<X styles="w-8 h-8"/>
 				</button>

@@ -4,7 +4,7 @@
 	// import DeleteSchool from '$lib/forms/DeleteSection.svelte';
 	import { triggerDrawer, closeDrawer, triggerModal } from '$lib/stores.js';
 	import { onDestroy } from 'svelte';
-	// import { schoolDataForm } from "$lib/schoolDataStore.js";
+	// import { schoolDataForm } from "$lib/dataStore";
 	export let data;
 	const { grades } = data;
 	let selectedGrades = [];

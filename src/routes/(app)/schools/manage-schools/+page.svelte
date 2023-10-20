@@ -1,12 +1,11 @@
 <script>
 	import SchoolContents from '$lib/components/SchoolContents.svelte';
-	// import AddSchool from '$lib/forms/AddSection.svelte';
-	// import DeleteSchool from '$lib/forms/DeleteSection.svelte';
+	import AddSchool from '$lib/forms/schools/AddSchool.svelte';
 	import { triggerDrawer, closeDrawer, triggerModal } from '$lib/stores.js';
 	import { onDestroy } from 'svelte';
-	// import { schoolDataStore } from "$lib/schoolDataStore.js";
+	// import { schoolDataStore } from "$lib/dataStore";
 	export let data;
-	const { schools } = data;
+	$: schools = data.schools;
 
 	const handleDrawer = async (school) => {
 		const req = await fetch(`/api/get-school-data?id=${school.id}`)
@@ -21,14 +20,10 @@
 		});
 	};
 
-	const newSection = () => {
+	const newSchool = () => {
 		triggerModal({
-			content: AddSection,
-			header: "New Section",
-			props: {
-				schoolID: school.id,
-				grades: grades
-			}
+			content: AddSchool,
+			header: "New School"
 		})
 	}
 
@@ -42,7 +37,7 @@
 	<button
 		id="classroom-add-class"
 		class="btn-sm btn-p"
-		on:click={newSection}
+		on:click={newSchool}
 	>
 		Add
 	</button>

@@ -25,7 +25,7 @@
                     <p class="text-red-500">Your passwords do not match</p>
                 {/if}
             {/if}
-            <button type="submit" class="btn bg-gray-100 hover:bg-green-100 !w-full transition-colors">Create User</button>
+            <button type="submit" class="py-1 bg-gray-100 hover:bg-green-100 w-full transition-colors">Create User</button>
         </div>
     </form>
 </div>

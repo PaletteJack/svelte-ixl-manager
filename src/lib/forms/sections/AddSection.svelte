@@ -42,7 +42,7 @@
             </select>
         </div>
         <div class="w-full flex flex-row-reverse mt-4">
-            <button class="btn btn-p">
+            <button class="btn-sm btn-p">
                 Create Section
             </button>
         </div>

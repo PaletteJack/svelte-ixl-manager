@@ -31,7 +31,7 @@
     <div class="w-full flex gap-4 my-4">
         <input class="input border-2 border-red-300 focus:outline-none" bind:value={inputValue} type="text" name="confirmation">
         <button 
-        class="btn btn-del"
+        class="btn-lg btn-del"
         class:diabled-button={!isValid}
         disabled={!isValid}
         >

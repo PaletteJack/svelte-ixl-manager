@@ -2,7 +2,7 @@
     import { enhance, applyAction } from "$app/forms"
     import { invalidateAll } from "$app/navigation"
     import { closeModal, triggerToast } from "$lib/stores.js";
-    import { studentDataStore } from "$lib/studentDataStore.js"
+    import { studentDataStore } from "$lib/dataStore"
     export let sections;
     export let studentID;
     
@@ -77,7 +77,7 @@
     <input type="hidden" value={selectedSections} name="sections">
     <input type="hidden" value={studentID} name="student_id">
     <div class="w-full flex flex-row-reverse mt-4">
-        <button class="btn btn-p">
+        <button class="btn-sm btn-p">
             Add Classes
         </button>
     </div>

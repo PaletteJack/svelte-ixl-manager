@@ -3,7 +3,7 @@
 	import AddSection from '$lib/forms/sections/AddSection.svelte';
 	import DeleteSection from '$lib/forms/sections/DeleteSection.svelte';
 	import { triggerModal, triggerDrawer, closeDrawer } from '$lib/stores.js';
-	import { classDataStore } from "$lib/classDataStore.js";
+	import { classDataStore } from "$lib/dataStore";
 	import { onDestroy } from 'svelte';
 	export let data;
 	const { school } = data;

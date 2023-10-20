@@ -30,7 +30,7 @@
     <input type="hidden" value={students} name="students">
     <div class="w-full flex flex-row-reverse gap-4 mt-6">
         <button
-        class="btn btn-del"
+        class="btn-sm btn-del"
         >
             Delete Students
         </button>

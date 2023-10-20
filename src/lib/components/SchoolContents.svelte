@@ -1,11 +1,21 @@
 <script>
+	import { triggerModal } from "$lib/stores.js"
 	import Library from "../svgs/Library.svelte";
 	import UserDisplay from "$lib/components/UserDisplay.svelte"
+	import DeleteSchool from "../forms/schools/DeleteSchool.svelte";
 	import InfoBox from "./InfoBox.svelte";
     export let school;
     export let countData;
     $: ratio = Math.round(countData.student_count / countData.teacher_count) ?? 0;
     
+	const deleteSchool = () => {
+		triggerModal({
+			content: DeleteSchool,
+    		header: 'Delete School?',
+    		props: {school}
+		})
+	}
+	
 </script>
 
 <UserDisplay>
@@ -53,7 +63,7 @@
 		<span slot="info">{countData.section_count}</span>
 	</InfoBox>
 	<InfoBox>
-		<span slot="label">Studen Ratio</span>
+		<span slot="label">Student Ratio</span>
 		<span slot="info">{ratio ? `${ratio} students : 1 teacher` : `No students`} </span>
 	</InfoBox>
 </div>
@@ -61,7 +71,7 @@
 <hr class="mb-3 mt-1">
 <div class="w-full flex gap-4">
 	<button class="btn-lg btn-t" >Advance School Year</button>
-	<button class="btn-lg btn-s">Delete School</button>
+	<button class="btn-lg btn-s" on:click={deleteSchool}>Delete School</button>
 </div>
 
 <div class="px-4">

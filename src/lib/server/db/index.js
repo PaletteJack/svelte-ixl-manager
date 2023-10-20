@@ -232,6 +232,43 @@ export const getSchoolSectionCount = (id) => {
     return count;
 }
 
+export const deleteSchool = (id) => {
+    const stmt = db.prepare(`
+    delete from school where id = ?
+    `)
+
+    try {
+        stmt.run(id)
+    } catch (err) {
+        return {
+            error: err.code
+        }
+    }
+
+    return null
+}
+
+export const createNewSchool = (obj) => {
+    const { name, initials, license_type} = obj;
+    const license_cap = Number(obj.license_cap)
+    const school_id = Number(obj.school_id)
+
+    const stmt = db.prepare(`
+    insert into school(school_id, name, initials, license_type, license_cap)
+    values (?, ?, ?, ?, ?)
+    `)
+
+    try {
+        stmt.run(school_id, name, initials, license_type, license_cap)
+    } catch (err) {
+        return {
+            error: err.code
+        }
+    }
+
+    return null
+}
+
 /* ----------------- Sections ----------------- */
 
 export const getSchoolSections = (id) => {
@@ -333,6 +370,8 @@ export const deleteSections = (form_ids) => {
             error: err.code
         }
     }
+
+    return null
 }
 
 /* ----------------- Teachers ----------------- */
